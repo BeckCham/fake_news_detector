@@ -1,0 +1,38 @@
+Author: Beck Chamberlain
+Week: 1 (Ending 01/02/2026)
+
+Supervisor Meeting
+=====================
+Plan going into meeting:
+    Use title, body, publisher, metadata ect to ascertain if news can be trusted,
+    use multiple classifiers not just fake/not fake.
+Takeaway from meeting:
+    Decide on dataset (look at kaggle), read publications on fake news data processing,
+    use python mainly but weka good for overview.
+
+
+Plan for this week
+=====================
+Action 1: Find dataset I want to use
+        Currently considering the following datasets:
+            (Just fake news)
+            https://www.kaggle.com/datasets/mrisdal/fake-news/data
+            (Multi-classification set)
+            https://github.com/several27/FakeNewsCorpus/blob/e8060d4ea5dafe1e1263e0d11c08525af6259137/README.md
+        Complete
+
+Action 2: Read publications & decide how to preprocess data
+        https://arxiv.org/pdf/1705.00648
+        (Example of fact checking on just text - it shows that body/title is not enough and context, metadata and speaker's historical reliability important)
+
+
+Action 3: Set up python directory on git
+        Complete
+
+Action 4: Decide how websites will be input:
+        GUI: Either Streamlit(web app) or Tkinter (app)
+        TBD
+
+Action 5: Decide how model will be created
+        scikit-learn or pytorch or XGBoost: Scikit decided
+        Complete
