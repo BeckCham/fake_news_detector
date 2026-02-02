@@ -23,7 +23,24 @@ Action 1: Find dataset I want to use
 
 Action 2: Read publications & decide how to preprocess data
         https://arxiv.org/pdf/1705.00648
-        (Example of fact checking on just text - it shows that body/title is not enough and context, metadata and speaker's historical reliability important)
+            (Example of fact checking on just text - it shows that body/title is not enough and context, metadata and speaker's historical reliability important)
+        https://ieeexplore.ieee.org/document/9537782
+            Models: Uses Decision Tree, Logistic Regression, KNN, Random Forest, SVM, NB
+            Optimising: using grid search for ML models and Hyperopt for DL
+            How to represent text: -ML N-Grams (Captures local word patterns) and TF-IDF (measures words importance)
+                                   -DL GloVe word embeddings (words with similar meanings are linked & preserves semantic relationships)
+            Performance measured: Using Accuracy, Precision, Recall, F1-Score
+            Results: OPCNN-Fake (optimised convolutional NN)
+            Number of datasets used: 4
+        https://ieeexplore.ieee.org/document/9537782
+            Models: RNN , MLP, CNN, Hybrid CNN-RNN
+            Number of datasets used: 3
+            Tested model robustness using adversarial attacks (TextBugger, TextFooler, PWWS, DeepWorkBug) which were implemented using Text Attack
+            Variables changed: Model complexity, input sequence length, Different loss formations (Cross Entropy, Weighted cross entropy ect)
+            Results:
+                    -RNN's are most robust (degrade longer under advesarial attacks)
+                    -Increasing the input sequence length generally increases robustness
+
 
 
 Action 3: Set up python directory on git
