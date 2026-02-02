@@ -40,8 +40,7 @@ Action 2: Read publications & decide how to preprocess data
             Results:
                     -RNN's are most robust (degrade longer under advesarial attacks)
                     -Increasing the input sequence length generally increases robustness
-
-
+        TBC
 
 Action 3: Set up python directory on git
         Complete
