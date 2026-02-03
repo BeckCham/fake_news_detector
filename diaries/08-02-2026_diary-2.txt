@@ -1,0 +1,64 @@
+Author: Beck Chamberlain
+Week: 1 (Ending 01/02/2026)
+
+Supervisor Meeting
+=====================
+Plan going into meeting:
+    - Mention actions that have been completed last week
+    - Talk about how to reduce dataset chosen https://github.com/several27/FakeNewsCorpus/blob/e8060d4ea5dafe1e1263e0d11c08525af6259137/README.md
+    - Discuss publications read (thinking about making optimised convolutional NN)
+Takeaway from meeting:
+    - Some ideas for sampling: take sample from dataset, sample small selection classes first, remove entries with missing data
+    - Justify libraries chosen along the way
+    - Ensure using Agile methodology
+    - Think about user tests for UI
+    - Think about visualization in python
+
+
+
+Plan for this week
+=====================
+Action 1: Read publications & decide how to preprocess data (Continued from week 1)
+        https://arxiv.org/pdf/1705.00648
+            (Example of fact checking on just text - it shows that body/title is not enough and context, metadata and speaker's historical reliability important)
+        https://ieeexplore.ieee.org/document/9537782
+            Models: Uses Decision Tree, Logistic Regression, KNN, Random Forest, SVM, NB
+            Optimising: using grid search for ML models and Hyperopt for DL
+            How to represent text: -ML N-Grams (Captures local word patterns) and TF-IDF (measures words importance)
+                                   -DL GloVe word embeddings (words with similar meanings are linked & preserves semantic relationships)
+            Performance measured: Using Accuracy, Precision, Recall, F1-Score
+            Results: OPCNN-Fake (optimised convolutional NN)
+            Number of datasets used: 4
+        https://ieeexplore.ieee.org/document/9446139
+            Models: RNN , MLP, CNN, Hybrid CNN-RNN
+            Number of datasets used: 3
+            Tested model robustness using adversarial attacks (TextBugger, TextFooler, PWWS, DeepWorkBug) which were implemented using Text Attack
+            Variables changed: Model complexity, input sequence length, Different loss formations (Cross Entropy, Weighted cross entropy ect)
+            Results:
+                    -RNN's are most robust (degrade longer under advesarial attacks)
+                    -Increasing the input sequence length generally increases robustness
+        https://ieeexplore.ieee.org/abstract/document/9395133
+            Do not rely exclusively on semantic embeddings (e.g. Word2Vec, BERT)
+            WELFake: Word Embedding + Linguistic Features + Voting Classifier
+        https://asistdl.onlinelibrary.wiley.com/doi/full/10.1002/pra2.2015.145052010082
+            Defines two major classification methods: linguistic cue & network analysis
+            Combines both methods to optimise
+            (I will only be focusing on former, use this to explain why accuracy low)
+        https://asistdl.onlinelibrary.wiley.com/doi/full/10.1002/pra2.2015.145052010083
+            Gives requirements for fake news detection:
+            - Availability of both truthful and deceptive instances
+            - Digital textual format accessibility
+            - Verifiability of “ground truth”
+            - Homogeneity in lengths
+            - Homogeneity in writing matter
+            - Predefined timeframe
+            - The manner of news delivery
+            - Pragmatic concerns
+            - Language and culture
+Action 2: Decide how websites will be input:
+        GUI: Either Streamlit(web app) or Tkinter (app)
+        Decision: Streamlit (easier)
+
+Action 3: Decide how model will be created
+        scikit-learn or pytorch or XGBoost:
+        Will likely need all 3 for diffrent models

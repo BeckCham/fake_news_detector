@@ -4,11 +4,12 @@ Week: 1 (Ending 01/02/2026)
 Supervisor Meeting
 =====================
 Plan going into meeting:
-    Use title, body, publisher, metadata ect to ascertain if news can be trusted,
-    use multiple classifiers not just fake/not fake.
+    - Use title, body, publisher, metadata ect to ascertain if news can be trusted,
+    - Use multiple classifiers not just fake/not fake.
 Takeaway from meeting:
-    Decide on dataset (look at kaggle), read publications on fake news data processing,
-    use python mainly but weka good for overview.
+    - Decide on dataset (look at kaggle)
+    - Read publications on fake news data processing,
+    - Use python mainly but weka good for overview.
 
 
 Plan for this week
@@ -32,7 +33,7 @@ Action 2: Read publications & decide how to preprocess data
             Performance measured: Using Accuracy, Precision, Recall, F1-Score
             Results: OPCNN-Fake (optimised convolutional NN)
             Number of datasets used: 4
-        https://ieeexplore.ieee.org/document/9537782
+        https://ieeexplore.ieee.org/document/9446139
             Models: RNN , MLP, CNN, Hybrid CNN-RNN
             Number of datasets used: 3
             Tested model robustness using adversarial attacks (TextBugger, TextFooler, PWWS, DeepWorkBug) which were implemented using Text Attack
@@ -50,5 +51,5 @@ Action 4: Decide how websites will be input:
         TBD
 
 Action 5: Decide how model will be created
-        scikit-learn or pytorch or XGBoost: Scikit decided
-        Complete
+        scikit-learn or pytorch or XGBoost:
+        TBD
