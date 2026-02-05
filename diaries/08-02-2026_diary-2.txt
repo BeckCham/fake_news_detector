@@ -19,6 +19,7 @@ Takeaway from meeting:
 Plan for this week
 =====================
 Action 1: Read publications & decide how to preprocess data (Continued from week 1)
+        # Week 1
         https://arxiv.org/pdf/1705.00648
             (Example of fact checking on just text - it shows that body/title is not enough and context, metadata and speaker's historical reliability important)
         https://ieeexplore.ieee.org/document/9537782
@@ -37,6 +38,7 @@ Action 1: Read publications & decide how to preprocess data (Continued from week
             Results:
                     -RNN's are most robust (degrade longer under advesarial attacks)
                     -Increasing the input sequence length generally increases robustness
+        # Week 2
         https://ieeexplore.ieee.org/abstract/document/9395133
             Do not rely exclusively on semantic embeddings (e.g. Word2Vec, BERT)
             WELFake: Word Embedding + Linguistic Features + Voting Classifier
@@ -57,8 +59,14 @@ Action 1: Read publications & decide how to preprocess data (Continued from week
             - Language and culture
 Action 2: Decide how websites will be input:
         GUI: Either Streamlit(web app) or Tkinter (app)
-        Decision: Streamlit (easier)
+        Conclusion: Streamlit (easier)
+        Complete
 
 Action 3: Decide how model will be created
-        scikit-learn or pytorch or XGBoost:
-        Will likely need all 3 for different models
+        Will likely need all 3 for different models because doing a range of ML models.
+        Look at options for each type of model.
+
+        Conclusion: scikit-learn or pytorch or XGBoost
+
+Action 4: Learn how to open file Archives
+        Complete
