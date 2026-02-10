@@ -1,0 +1,22 @@
+Author: Beck Chamberlain
+Week: 3 (Ending 15/02/2026)
+
+Supervisor Meeting
+=====================
+Plan going into meeting:
+    - Ask about if theres a way to check URL's on websites.csv if theyre not in sample
+    - Ask about if sample should have equal amounts for each classifier
+    - Show work on Project outline
+Takeaway from meeting:
+    - Advised to look more into embedding
+    - Advised to make sample balenced
+
+
+
+Plan for this week
+=====================
+Action 1: Research embedding types
+
+Action 2: Create sample for training
+
+Action 3: Start Project Report
