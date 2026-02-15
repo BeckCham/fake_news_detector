@@ -4,7 +4,7 @@ Week: 3 (Ending 15/02/2026)
 Supervisor Meeting
 =====================
 Plan going into meeting:
-    - Ask about if theres a way to check URL's on websites.csv if theyre not in sample
+    - Ask about if there's a way to check URL's on websites.csv if they're not in sample
     - Ask about if sample should have equal amounts for each classifier
     - Show work on Project outline
 Takeaway from meeting:
@@ -16,7 +16,41 @@ Takeaway from meeting:
 Plan for this week
 =====================
 Action 1: Research embedding types
+    https://ieeexplore.ieee.org/abstract/document/9395133
+            Do not rely exclusively on semantic embeddings (e.g. Word2Vec, BERT)
+            WELFake: Word Embeddsing + Linguitic Features + Voting Classifier
+    https://ieeexplore.ieee.org/document/9537782
+            Models: Uses Decision Tree, Logistic Regression, KNN, Random Forest, SVM, NB
+            Optimising: using grid search for ML models and Hyperopt for DL
+            How to represent text: -ML N-Grams (Captures local word patterns) and TF-IDF (measures words importance)
+                                   -DL GloVe word embeddings (words with similar meanings are linked & preserves semantic relationships)
+
+            https://asistdl.onlinelibrary.wiley.com/doi/full/10.1002/pra2.2015.145052010082
+            Defines two major classification methods: linguistic cue & network analysis
+            Combines both methods to optimise
+            (I will only be focusing on former, use this to explain why accuracy low)
+
+    Thus decide between N-Grams, GloVe, TF-IDF, and WELFake
+    Complete
 
 Action 2: Create sample for training
+    Decided to not include 'State News' classifier due to lack of entries.
+    Thus will need equal amount of following classes: Fake News, Satire, Extreme Bias, Conspiracy Theory, Junk Science, Hate News,
+    Clickbait, Proceed With Caution, Political, Credible
+
+    This means in a sample of 10,000 each class would have 1,000 entries each.
+    It's also important to have a classifier for each entry since this is supervised learning
+
+    Used reservoir because of grouping together of websites in dataset
+
+    Complete
+
 
 Action 3: Start Project Report
+
+Action 4: Decide how to create web application
+        Tkinter/Tkinter Designer or Anvil or Streamlit
+        Complete
+
+Action 5: Decide which models to use
+    Used in seen studies: RNN (Best found in NN)

@@ -8,14 +8,14 @@ def sample_from_csv(number_of_desired_rows):
     #Increases the maximum CSV field size so large body's don't create errors
     csv.field_size_limit(min(sys.maxsize, 2_147_483_647))
     #Path to the fake news dataset
-    fake_news_csv = "data/raw/archive/fake_news.csv"
+    fake_news_csv_filename = "data/raw/archive/fake_news.csv"
     #Path to where the sample of the dataset will be saved
-    sample = f"data/processed/news_sample_{number_of_desired_rows}.csv"
-    #Fixed random seed
-    random.seed(42)
+    random_sample_filename = f"data/samples/random_news_sample_{number_of_desired_rows}.csv"
+    #Chosen fixed random seed
+    random.seed(3)
 
     #Open the fake news dataset and takes a random selection of the rows
-    with open(fake_news_csv,encoding="utf-8", errors="replace", newline="") as news_csv_file:
+    with open(fake_news_csv_filename,encoding="utf-8", errors="replace", newline="") as news_csv_file:
         news_csv_reader = csv.reader(news_csv_file)
         #Skips and saves the header
         news_csv_header = next(news_csv_reader)
@@ -34,7 +34,7 @@ def sample_from_csv(number_of_desired_rows):
                 if random_row_selection < number_of_desired_rows:
                     csv_rows[random_row_selection] = row
     #Creates a csv file and writes the chosen rows to it as well as the previously saved header
-    with open(sample, "w",encoding="utf-8", newline="") as sample_csv_file:
+    with open(random_sample_filename, "w",encoding="utf-8", newline="") as sample_csv_file:
         writer = csv.writer(sample_csv_file)
         writer.writerow(news_csv_header)
         writer.writerows(csv_rows)
