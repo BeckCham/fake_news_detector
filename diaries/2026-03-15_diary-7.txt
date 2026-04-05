@@ -1,0 +1,29 @@
+Author: Beck Chamberlain
+Week: 7 (Ending 15/03/2026)
+
+Supervisor Meeting
+=====================
+Plan going into meeting:
+    Had a quick catch up over teams that everything was running
+Takeaway from meeting:
+    N/A
+=====================
+
+Action 1: Implement Naive Bayes
+    Complete
+
+Action 2: Complete web scraping implementation
+    Fully complete - extra punctuation/sentiment analysis can be added later if helpful
+
+Action 3: Combine UI with web scraping that outputs an appropriate response
+    Complete for now: Have an appropriate title but need to add descriptive text, will do once certain that all classes
+    will be retained
+
+Action 4: Polish up code and comments
+    Complete
+
+
+Notes
+=====================
+Had assessment this week, was advised to change to steamlit for app and to compare against BERT
+

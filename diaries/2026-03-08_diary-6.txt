@@ -1,0 +1,32 @@
+Author: Beck Chamberlain
+Week: 6 (Ending 08/03/2026)
+
+Supervisor Meeting
+=====================
+Plan going into meeting:
+    Discuss embedding plans, mention trying out multiple embedding types and comparing them.
+Takeaway from meeting:
+    Suggested only doing this for 1 or 2 classifiers.
+Plan for this week
+=====================
+Action 1: Implement tf-idf embedding of sample
+    Completed first draft just need to work out bugs before implementation
+
+Action 2: Complete web scraping implementation
+    Fully complete - extra punctuation/sentiment analysis can be added later if helpful
+
+Action 3: Combine UI with web scraping that outputs an appropriate response
+    TBD
+
+Action 4: Finish cleaning sample data
+    Completed all planned tasks to ensure data ready for embedding then hit problem where I realized that I hadn't
+    filtered out non-english articles, first planned to do on cleaned sample so there was more text for more accurate
+    detection but realised that since articles may reference different countries or websites and they might be short.
+    since I had such a large amount of data to start with it made more sense to check for them during sample selection.
+
+    Realised this would take too long so compromised and did after
+
+    Chose between langdetect, fasttext, and langid
+
+Action 5: Fill in ethics form
+    TBD

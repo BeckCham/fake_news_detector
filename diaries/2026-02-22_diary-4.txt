@@ -1,0 +1,45 @@
+Author: Beck Chamberlain
+Week: 4 (Ending 22/02/2026)
+
+Supervisor Meeting
+=====================
+Plan going into meeting:
+    - Discuss project outline
+    - Explain decisions made in week 3
+Takeaway from meeting:
+    - Taken notes about review of project outline and changes that need to be made
+    - Positive response to choices made, continue doing what you're doing
+
+Plan for this week
+=====================
+Action 1: Research implementation of data preprocessing especially given chosen models
+    Why I chose what I did:
+        - Following success of OPCNN dataset (https://ieeexplore.ieee.org/document/9537782)
+        - https://www.mdpi.com/2078-2489/13/12/576 "Relatively simple feature extraction methods such as TF and TF-IDF
+        have achieved strong performance in fake news detection. Riedel et al. [24] reported 88.5% accuracy using an
+        MLP with TF and TF-IDF features. Ahmed et al. [25] achieved 92% accuracy with a linear SVM and unigram TF-IDF
+        features. Bharadwaj [26] found that a Random Forest with bigram features reached 95.66% accuracy. Study [27]
+        showed that character n-grams improved performance more than word n-grams. Additionally, [28] demonstrated that
+        TF-IDF and CountVectorizer outperformed state-of-the-art Transformer models such as BERT." (ChatGPT summary)
+        - Word2Vec found superior to GloVe for DL(https://www.mdpi.com/2078-2489/13/12/576)
+        - TF-IDF found to be good for basic models (https://www.mdpi.com/2078-2489/13/12/576)
+
+    TF-IDF with or without n-grams (character n-grams shown to work better [27] https://www.mdpi.com/2078-2489/13/12/576#B27-information-13-00576)
+
+    Lots of evidence TF-IDF is good but also shown that Word2Vec or Glove can be better depending on classifiers.
+    Due to the uniqueness of a multi classification news dataset its a good idea to try multiple.
+
+Action 2: Write up logic for library & Model choices
+     NB - scikit-learn* or nltk
+     DT - scikit-learn*
+     KNN - scikit-learn*
+     RF - scikit-learn, xgboost*, lightgbm
+     SVM - scikit-learn* ,thundersvm
+     CNN - TensorFlow*, PyTorch, fastai
+
+     TBC
+
+Action 3: Read PEP-8 & comment code for sample code written
+    Gone through some code and made sure it was to standard. More to be done.
+
+Action 4: Start cleaning sample data

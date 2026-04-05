@@ -35,7 +35,7 @@ Action 2: Read publications & decide how to preprocess data
             Number of datasets used: 4
         https://ieeexplore.ieee.org/document/9446139
             Models: RNN , MLP, CNN, Hybrid CNN-RNN
-            Number of datasets used: 3
+            Number of datasets used:
             Tested model robustness using adversarial attacks (TextBugger, TextFooler, PWWS, DeepWorkBug) which were implemented using Text Attack
             Variables changed: Model complexity, input sequence length, Different loss formations (Cross Entropy, Weighted cross entropy ect)
             Results:
@@ -43,7 +43,7 @@ Action 2: Read publications & decide how to preprocess data
                     -Increasing the input sequence length generally increases robustness
         TBC
 
-Action 3: Set up python directory on git
+Action 3: Set up python directory on git & set up sprint board on gitlab
         Complete
 
 Action 4: Decide how websites will be input:

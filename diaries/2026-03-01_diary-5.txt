@@ -1,0 +1,37 @@
+Author: Beck Chamberlain
+Week: 5 (Ending 01/03/2026)
+
+Supervisor Meeting
+=====================
+Plan going into meeting:
+    Discuss embedding plans, mention trying out multiple embedding types and comparing them.
+Takeaway from meeting:
+    Suggested only doing this for 1 or 2 classifiers otherwise chatted about progress and got positive feedback.
+Plan for this week
+=====================
+Action 1: Fill in ethics form
+    Delayed - will do next week
+
+Action 2: Finish research and start preprocessing implementation
+    Research complete. Created code to clean samples now writing code to implement tf-idf
+
+Action 3: Implement Decision Tree
+    Delayed - preprocessing bigger task than imagined
+
+Action 4: Implement Naive Bayes
+    Delayed - preprocessing bigger task than expected
+
+Action 5: Create UI prototype & start implementation
+    UI prototype complete, originally planned to create prototype in canva and then implement
+    with anvil but when learning anvil I found it non-intuitive and not flexible enough so I chose
+    to use Tkinter instead, making the prototype in figma then using Tkinter designer to convert this
+    to working tkinter code. However, tkinter designer did not do this very well so it required a lot
+    of changes to make this work.
+
+Action 6: Research Web scraping
+    I researched web scraping libraries and how to use them using the following sites:
+    - https://realpython.com/python-web-scraping-practical-introduction/#:~:text=Python%20web%20scraping%20allows%20you,scraping%20both%20efficient%20and%20effective
+    - https://beautiful-soup-4.readthedocs.io/en/latest/
+
+Action 7: Start to implement web scraping
+    I started on the piece of code that will get information about a webpage from a url

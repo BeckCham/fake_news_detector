@@ -1,0 +1,21 @@
+Author: Beck Chamberlain
+Week: 9 (Ending 29/03/2026)
+
+Supervisor Meeting
+=====================
+Plan going into meeting:
+    Discuss plan to implement one more model
+Takeaway from meeting:
+    Positive response, discussed how I don't plann to change app unless i have extra time but may include bert
+=====================
+
+Action 1: Create t-test's and add all metrics to model analysis
+    TBD
+Action 2: Implement decision tree
+    Complete
+Action 3: Implement website credibility feature
+    Complete
+Action 4: Implement grammatical features
+    TBD
+Action 3: Further research other features to implement
+    Partly complete

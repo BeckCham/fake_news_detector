@@ -1,0 +1,97 @@
+Author: Beck Chamberlain
+Week: 3 (Ending 15/02/2026)
+
+Supervisor Meeting
+=====================
+Plan going into meeting:
+    - Ask about if there's a way to check URL's on websites.csv if they're not in sample
+    - Ask about if sample should have equal amounts for each classifier
+    - Show work on Project outline
+Takeaway from meeting:
+    - Advised to look more into embedding
+    - Advised to make sample balanced
+
+Plan for this week
+=====================
+Action 1: Research embedding types
+    https://ieeexplore.ieee.org/abstract/document/9395133
+            Do not rely exclusively on semantic embeddings (e.g. Word2Vec, BERT)
+            WELFake: Word Embeddsing + Linguitic Features + Voting Classifier
+    https://ieeexplore.ieee.org/document/9537782
+            Models: Uses Decision Tree, Logistic Regression, KNN, Random Forest, SVM, NB
+            Optimising: using grid search for ML models and Hyperopt for DL
+            How to represent text: -ML N-Grams (Captures local word patterns) and TF-IDF (measures words importance)
+                                   -DL GloVe word embeddings (words with similar meanings are linked & preserves semantic relationships)
+
+    https://asistdl.onlinelibrary.wiley.com/doi/full/10.1002/pra2.2015.145052010082
+            Defines two major classification methods: linguistic cue & network analysis
+            Combines both methods to optimise
+            (I will only be focusing on former, use this to explain why accuracy low)
+
+    Thus decide between N-Grams, GloVe, TF-IDF, and Bert and Word2Vec
+    Try n-gram + TF-IDF and WELFake embedding
+    Keep in mind that time is a factor
+    Complete
+
+Action 2: Create sample for training
+    Decided to not include 'State News' classifier due to lack of entries.
+    Thus will need equal amount of following classes: Fake News, Satire, Extreme Bias, Conspiracy Theory, Junk Science, Hate News,
+    Clickbait, Proceed With Caution, Political, Credible
+
+    This means in a sample of 10,000 each class would have 1,000 entries each.
+    It's also important to have a classifier for each entry since this is supervised learning
+
+    Used reservoir because of grouping together of websites in dataset
+
+    Complete
+
+Action 3: Start Project Report
+    Made word doc
+
+    TBC
+
+
+Action 4: Decide how to create application
+    Tkinter/Tkinter Designer or Anvil or Streamlit
+
+    TBC
+
+Action 5: Decide which models to use
+    NN:
+        https://ieeexplore.ieee.org/document/9446139
+            multi-layer Perceptron (MLP), Convolutional Neural Networks (CNN), Recurrent Neural Networks (RNN) and a recently proposed Hybrid CNN-RNN
+            Used in seen studies: CNN most robust
+        https://ieeexplore.ieee.org/document/9537782
+            OPCNN-Fake (optimized convolutional NN) Best
+
+    Non-NN (Used in following studies)
+        [1]https://ieeexplore.ieee.org/document/9537782
+            Decision Tree, logistic Regression, K Nearest Neighbor, Random Forest, Support Vector Machine, and Naive Bayes
+        [2]https://dl.acm.org/doi/abs/10.1145/3184558.3186987
+            Random Forest, Naive Bayes
+        [3]https://arxiv.org/pdf/1705.00648
+             majority baseline, logistic regression, support vector machine, bi-directional long short-term memory networks, convolutional neural network model
+             (SVMs and LR had significant improvements, CNN best)
+
+    Naive bayes & Decision Tree & KNN & Random Forest, SVM, (CNN because quicker maybe 1D-CNN)
+
+Action 6: Decide how model will be created
+     scikit-learn or pytorch or XGBoost:
+
+     NB - scikit-learn* or nltk
+     DT - scikit-learn*
+     KNN - scikit-learn*
+     RF - scikit-learn, xgboost*, lightgbm
+     SVM - scikit-learn*,thundersvm
+     CNN - TensorFlow*, PyTorch, fastai
+
+     TBC
+
+=====================
+Notes:
+matplotlib for visualisation
+
+https://arxiv.org/abs/2009.01048
+(Interesting look back on when thinking about testing)
+https://ojs.aaai.org/index.php/ICWSM/article/view/7279/7133
+(Also look at when thinking about testing) (Good overview on lots of similar projects)

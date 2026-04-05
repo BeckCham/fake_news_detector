@@ -1,0 +1,41 @@
+Author: Beck Chamberlain
+Week: 8 (Ending 22/03/2026)
+
+Supervisor Meeting
+=====================
+Plan going into meeting:
+    Discuss how the mid-project demonstration went and my next plans for development
+Takeaway from meeting:
+    Positive response, discussed how I don't plann to change app unless i have extra time but may include bert
+=====================
+
+Action 1: Fill out ethics form
+    Complete
+
+Action 2: Research Linguistic Features
+    when write up talk about how tried to do credibility and didnt work w original method but could try another.
+    Idea for this could be to use a credibly checker using number of ads, domain age, valid SSL ect
+
+    WELFake dataset references for linguistic:
+
+    n-grams, punctuation, psycho-linguistic, readability, and syntax - . V. Pérez-Rosas, B. Kleinberg, A. Lefevre, and R. Mihalcea, “Automatic detection of fake news,” in Proc. 27th Int. Conf. Comput. Linguistics, Santa Fe, NM, USA : Association for Computational Linguistics, Aug. 2018, pp. 3391–3401.
+    Length - . C. Buntain and J. Golbeck, “Automatically identifying fake news in popular Twitter threads,” in Proc. IEEE Int. Conf. Smart Cloud (SmartCloud), New York, NY, USA, USA, Nov. 2017, pp. 208–215.
+    number of characters, words, sentences, question marks, and negations -  . M. D. Vicario, W. Quattrociocchi, A. Scala, and F. Zollo, “Polarization and fake news: Early warning of potential misinformation targets,” ACM Trans. Web, vol. 13, no. 2, pp. 1–22, Apr. 2019.
+
+    diversity of language,quantity,emotional language,and complex sentence structure  , - 20 diff - L. Zhou, J. K. Burgoon, J. F. Nunamaker, and D. Twitchell, “Automating linguistics-based cues for detecting deception in text-based asynchronous computer-mediated communications,” Group Decis. Negotiation, vol. 13, no. 1, pp. 81–106, Jan. 2004.
+    pronoun use, negative words, exclusion words, and sensory words 29 diff to read - M. L. Newman, J. W. Pennebaker, D. S. Berry, and J. M. Richards, “Lying words: Predicting deception from linguistic styles,” Personality Social Psychol. Bull., vol. 29, no. 5, pp. 665–675, May 2003.
+    word/sentace count, concrete vs vague terms, positive/negitive emotive words -16 diff ones, try to find - J. K. Burgoon, J. Blair, T. Qin, and J. Nunamaker, “Detecting deception through linguistic analysis,” in Proc. 1st NSF/NIJ Conf. Intell. Secur. Inform., Berlin, Germany : Springer, May 2003, pp. 91–101.
+Action 3: Implement decision tree
+    TBC
+Action 4: Start to implement other features
+    Will include a grammatical analysis, and website 'credibility' check along with other features
+    TBC
+Action 5: Decide on comparison metrics & write up
+    Done
+Action 6: Balance out classes
+    After removing non-english articles, bias had about 100 less than other classses. So I made it so that the reseviour
+    sampling took 100 more samples of bias to even it out.
+
+
+
+
