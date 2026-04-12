@@ -1,7 +1,7 @@
 """
 Filename: model_comparison.py
 Author: Beck Chamberlain
-Version: 0.01
+Version: 0.02
 Description:
 """
 from sklearn.metrics import confusion_matrix, cohen_kappa_score, make_scorer
@@ -45,40 +45,30 @@ def cross_validation_two_samples(model_1, model_2, model_1_name, model_2_name, f
 """
 Does related Wilcoxon signed-rank tests between two different models
 """
-def t_test_between_models(model_1_results, model_2_results, model_1_name, model_2_name):
+def wilcoxon_between_models(model_1_results, model_2_results, model_1_name, model_2_name):
     # Prints if there's a significant difference in the two models accuracy
     print("Accuracy:")
-    print(f"{model_1_name}:{model_1_results[0]}, {model_2_name}:{model_2_results[0]} ")
+    print(f"{model_1_name}:{model_1_results[0]:.4f}, {model_2_name}:{model_2_results[0]:.4f} ")
     stat, p_value = stats.wilcoxon(model_1_results[0], model_2_results[0])
     print_if_significant(p_value)
     # Prints if there's a significant difference in the two models F1
     print("F1:")
-    print(f"{model_1_name}:{model_1_results[1]}, {model_2_name}:{model_2_results[1]} ")
+    print(f"{model_1_name}:{model_1_results[1]:.4f}, {model_2_name}:{model_2_results[1]:.4f} ")
     stat, p_value = stats.wilcoxon(model_1_results[1], model_2_results[1])
     print_if_significant(p_value)
     # Prints if there's a significant difference in the two models kappa
     print("Kappa:")
-    print(f"{model_1_name}:{model_1_results[4]}, {model_2_name}:{model_2_results[4]} ")
+    print(f"{model_1_name}:{model_1_results[4]:.4f}, {model_2_name}:{model_2_results[4]:.4f} ")
     stat, p_value = stats.wilcoxon(model_1_results[4], model_2_results[4])
     print_if_significant(p_value)
 """
-Does independent Mann-Whitney U tests between two different samples
+Does Wilcoxen signed-rank tests between two different or samples
 """
 def t_test_between_samples(model_1_results, model_2_results, model_1_name, model_2_name):
     # Prints if there's a significant difference in the two models accuracy
-    print("Accuracy:")
-    print(f"{model_1_name}:{model_1_results[0]}, {model_2_name}:{model_2_results[0]} ")
-    stat, p_value = stats.mannwhitneyu(model_1_results[0], model_2_results[0])
-    print_if_significant(p_value)
-    # Prints if there's a significant difference in the two models F1
-    print("F1:")
-    print(f"{model_1_name}:{model_1_results[1]}, {model_2_name}:{model_2_results[1]} ")
-    stat, p_value = stats.mannwhitneyu(model_1_results[1], model_2_results[1])
-    print_if_significant(p_value)
-    # Prints if there's a significant difference in the two models kappa
-    print("Kappa:")
-    print(f"{model_1_name}:{model_1_results[4]}, {model_2_name}:{model_2_results[4]} ")
-    stat, p_value = stats.mannwhitneyu(model_1_results[4], model_2_results[4])
+    print("Results:")
+    print(f"{model_1_name}:{model_1_results:.4f}, {model_2_name}:{model_2_results:.4f} ")
+    stat, p_value = stats.wilcoxon(model_1_results, model_2_results)
     print_if_significant(p_value)
 
 def print_if_significant(p_value):
@@ -99,6 +89,15 @@ def print_comparison(cross_val_result_1, cross_val_result_2, model_1_name, model
     print_cm_simple(cross_val_result_1[5])
     print(f"\nConfusion Matrix for {model_2_name}:")
     print_cm_simple(cross_val_result_2[5])
+
+def print_results(model, features, labels):
+    cross_validation_result = cross_validation_one_model(model, features, labels)
+    print(f"Accuracy:  {cross_validation_result[0]:.4f}")
+    print(f"F1:  {cross_validation_result[1]:.4f}")
+    print(f"Precision: {cross_validation_result[2]:.4f}")
+    print(f"Recall: {cross_validation_result[3]:.4f}")
+    print(f"Kappa: {cross_validation_result[4]:.4f}")
+    print_cm_simple(cross_validation_result[5])
 
 """
 DONT FORGET TO SAY THIS IS AI!!! "Can you add labels to this confusion matrix" Claude

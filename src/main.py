@@ -2,16 +2,22 @@
 
 """
 import csv
+import pickle
+
+import numpy as np
 import pandas as pd
+from numpy.ma.core import get_data
 
 from src.models import classifiers
 from src.preprocessing import csv_cleaning, added_features
 from src.ingestion.web_scraping import url_to_data
-from src.preprocessing.text_representations import tf_idf
+from src.preprocessing.lfr import create_tfidf_dataset
 #from src.ui.gui import run_gui
 
+
+
 #if __name__ == "__main__":
-# run_gui()
+ #   run_gui()
 
 """
 Preprocesses the csv file given
@@ -39,9 +45,20 @@ Gets data from URL
 """
 # url_to_data('https://www.pravda.ru/world/1139645-negr/')
 """
+Gets models metrics
+
+with open('src/models/sample_1/decision_tree_model.pkl', 'rb') as file:
+    dt_model = pickle.load(file)
+features = np.load(f'data/embedded/sample_1/features_tfidf.npy')  # x
+labels = np.load(f'data/embedded/sample_1/labels_tfidf.npy')  # y
+from src.models.model_comparison import print_results
+print_results(dt_model, features, labels)
+"""
+"""
 Applies tf-idf to cleaned news sample
 """
-tf_idf.create_tfidf_dataset('data/cleaned/cleaned_sample_1.csv')
+from src.preprocessing.lfr import create_tfidf_dataset,prepare_data
+#create_tfidf_dataset(*prepare_data('data/cleaned/cleaned_sample.csv'))
 """
 Runs NB
 """
@@ -52,9 +69,19 @@ from src.models.classifiers import train_model
 """
 Runs Decision Tree
 """
-# from src.models.decision_tree import decision_trees
-# decision_trees.run_decision_tree()
-
+#classifiers.train_model("decision_tree", 1)
+"""
+Runs Random Forest
+"""
+#classifiers.train_model("random_forest", 1)
+"""
+Runs KNN
+"""
+#classifiers.train_model("knn", 1)
+"""
+Runs SVM
+"""
+#classifiers.train_model("svm", 1)
 """
 Predict from url with nb
 """
@@ -65,3 +92,14 @@ Extra features
 """
 from src.preprocessing import added_features
 #print(added_features.website_credibility_tests("https://www.bbc.co.uk/news/articles/cpwj7r5yxv1o"))
+"""
+Does Wilcoxen tests between two different models
+"""
+from src.models.model_comparison import t_test_between_samples, cross_validation_one_model
+#t_test_between_samples(77.42,77.51,"sample 1","sample 2")
+"""
+Performs feature selection
+"""
+from src.preprocessing.lfr import prepare_data
+from src.preprocessing.feature_selection import test_features_individually
+test_features_individually(*prepare_data('data/cleaned/cleaned_sample.csv')[:3])

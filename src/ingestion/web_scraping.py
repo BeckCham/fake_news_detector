@@ -84,10 +84,12 @@ def url_to_data(url):
     # Adds content
     content = soup.find("article")
     if content:
-        text += content.get_text(strip=True)
+        content_text = content.get_text(strip=True)
+        text += content_text + ' '
     else:
         content = soup.find_all("p")
-        text += " ".join(paragraph.get_text(strip=True) for paragraph in content)
+        content_text = " ".join(paragraph.get_text(strip=True) for paragraph in content) + ' '
+        text += content_text
 
     # Adds metadescription
     meta_description = soup.find('meta', attrs={'name': 'description'})
@@ -97,14 +99,7 @@ def url_to_data(url):
     #####   Adds extra features
     # Adds feature that represents if webpage has DMARC
     dmarc_present = added_features.dmarc_check(domain)
-    # Adds feature that holds a score between 0-3 reflecting the SSL/TLS security configuration of a website
-    ssl_score = added_features.http_certification_check(domain,url)
-    #Adds feature that represents how w3c compliant a webpage is
-    if soup is not None:
-        w3c_score = added_features.html_w3c_compliance(url,soup)
-    else:
-        w3c_score = None
     # Gets textual analysis information
-    textual_features = added_features.textual_analysis(content)
+    textual_features = added_features.textual_analysis(content_text)
 
-    return text, dmarc_present, ssl_score, w3c_score,textual_features
+    return dmarc_present,textual_features,text

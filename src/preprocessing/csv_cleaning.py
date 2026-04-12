@@ -107,11 +107,13 @@ def combining_textual_features(dataframe):
     dataframe = dataframe.drop(columns=['title'])
     dataframe = dataframe.drop(columns=['meta_keywords'])
     dataframe = dataframe.drop(columns=['tags'])
-    # Remove the author column to try to encourage the model to learn textual analysis rather than source credibility
+    # Remove the author and domain column to try to encourage the model to learn textual analysis rather than source credibility
     dataframe = dataframe.drop(columns=['authors'])
+    dataframe = dataframe.drop(columns=['domain'])
     return dataframe
 
 def add_extra_features(dataframe):
+    # Adds a dmarc check
     dataframe['dmarc_check'] = dataframe['domain'].apply(added_features.dmarc_check)
     # Gets textual analysis information and adds features to the dataset
     textual_features = dataframe['content'].apply(added_features.textual_analysis)
@@ -141,7 +143,6 @@ def preprocess_csv(csv_file):
     dataframe = culling_redundant_features(dataframe)
     dataframe = combining_textual_features(dataframe)
     # Prepares the dataframe for merging
-
     dataframe.rename(columns={'type': 'classification'}, inplace=True)
     # Saves the cleaned dataframe as a csv
     dataframe.to_csv('data/cleaned/cleaned_sample.csv', index=False)

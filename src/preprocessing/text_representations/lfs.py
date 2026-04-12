@@ -1,3 +1,0 @@
-"""
-Linguistic Features Representation
-"""

@@ -1,18 +1,13 @@
 Author: Beck Chamberlain
-Week: 10 (Ending 05/04/2026)
+Week: 11 (Ending 12/04/2026)
 
 Supervisor Discussion
 =====================
-- Asked for advice with types of t-tests and he advised nonparametric test such as wilcoxon
+- Discussed issues with implementing additional features and agreed that it was necessary to implement extra features
 =====================
 
-Action 1: Create t-test's and add all metrics to model analysis
+Action 1: Implement KNN, Random Forest, and SVM
 
-Action 2: Implement grammatical features
-    Complete
-Action 3: Further research other features to implement
-    Options for further features:
-        - Negations
-        - Diversity in language
-        - Emotional language
-        - First-person pronouns
+Action 2: Write Abstract, Background, Analysis, and Process
+
+Action 3:

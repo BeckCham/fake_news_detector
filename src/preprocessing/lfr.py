@@ -1,8 +1,8 @@
 """
-Filename: predict_from_url.py
+Filename: lfr.py
 Author: Beck Chamberlain
-Version: 0.02
-Description: Embeds a cleaned sample into tf_idf
+Version: 0.03
+Description: Linguistic Features Representation
 https://www.youtube.com/watch?v=f0pZviF6qLQ
 """
 import pandas as pd
@@ -11,14 +11,8 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from scipy.sparse import hstack, csr_matrix
 import pickle
 
-
-def create_tfidf_dataset(csv_file):
-    """
-    Creates dataset with TF-IDF applied to any relevant columns from sample
-
-    :param csv_file: sample csv file
-    :return: dataset with TF-IDF embedded features and textual & credibility features
-    """
+from sklearn.preprocessing import MinMaxScaler
+def prepare_data(csv_file):
     # Defines the classifiers numerically
     classifier_labels = {
         'fake': 0,
@@ -50,17 +44,45 @@ def create_tfidf_dataset(csv_file):
         'uppercase_word_frequency',
         'sentence_length',
         'language_diversity',
-        'spelling_error_frequency'
+        'spelling_error_frequency',
     ]
     additional_features = sample_dataframe[additional_feature_column_names].values
 
+    # Scale additional features with MinMaxScaler
+    scaler = MinMaxScaler()
+    scaled_additional_features = scaler.fit_transform(additional_features)
+
+    #Sets the labels
+    labels = sample_dataframe['classification'].values
+
+    return vectorized_combined_text, scaled_additional_features, labels, scaler, vectorizer
+
+def create_tfidf_dataset(vectorized_combined_text, scaled_additional_features, labels, scalar, vectorizer):
+    """
+    Creates dataset with TF-IDF applied to any relevant columns from sample
+
+    :param vectorizer:
+    :param vectorized_combined_text:
+    :param scalar:
+    :param labels:
+    :param scaled_additional_features:
+    :param csv_file: sample csv file
+    :return: dataset with TF-IDF embedded features and textual & credibility features
+    """
+
+
+    # Save scaler for use at prediction time
+    with open('data/embedded/scaler.pkl', 'wb') as f:
+        pickle.dump(scalar, f)
+
     # Combine vectorised text and additional features
     from scipy.sparse import hstack, csr_matrix
-    combined_features =hstack([vectorized_combined_text, csr_matrix(additional_features)])
+    combined_features =hstack([vectorized_combined_text, csr_matrix(scaled_additional_features)])
 
     # Saves features and their associated labels
-    np.save('data/embedded/labels_tfidf.npy', sample_dataframe['classification'].values)
-    np.save('data/embedded/features_tfidf.npy', vectorized_combined_text.toarray())
+    np.save('data/embedded/labels_tfidf.npy', labels)
+
+    np.save('data/embedded/features_tfidf.npy', combined_features.toarray())
 
     # Saves the vectorizer so it can be used on new webpages
     with open('data/embedded/tfidf_vectorizer.pkl', 'wb') as file:
