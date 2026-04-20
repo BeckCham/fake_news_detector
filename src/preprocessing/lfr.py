@@ -33,24 +33,21 @@ def prepare_data(csv_file):
     sample_dataframe['classification'] = sample_dataframe['classification'].map(classifier_labels)  # Y for graph
 
     # Vectorizes the combined text with tf-idf and max vocab set to 5000, ngrams set to 2 and minimum occurrence to 2
-    vectorizer = TfidfVectorizer(max_features=5000, stop_words='english', ngram_range=(1, 2), min_df=2)
+    vectorizer = TfidfVectorizer(max_features=6000, stop_words='english', ngram_range=(1, 2), min_df=2)
     vectorized_combined_text = vectorizer.fit_transform(sample_dataframe['combined_text'])
 
     # Extracts additional textural & credibility feature columns
     additional_feature_column_names = [
         'dmarc_check',
-        'exclamation_marks_frequency',
-        'question_marks_frequency',
         'uppercase_word_frequency',
-        'sentence_length',
-        'language_diversity',
-        'spelling_error_frequency',
+        'sentence_length'
     ]
     additional_features = sample_dataframe[additional_feature_column_names].values
 
     # Scale additional features with MinMaxScaler
     scaler = MinMaxScaler()
     scaled_additional_features = scaler.fit_transform(additional_features)
+
 
     #Sets the labels
     labels = sample_dataframe['classification'].values

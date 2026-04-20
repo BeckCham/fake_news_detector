@@ -22,7 +22,7 @@ def cross_validation_one_model(model, features, labels):
     whole_prediction = cross_val_predict(model, features, labels, cv=10)
     whole_confusion_matrix = confusion_matrix(labels, whole_prediction)
     # Return results
-    return accuracy_result.mean(), f1_result.mean(), precision_result.mean(), recall_result.mean(), kappa_result.mean(), whole_confusion_matrix
+    return accuracy_result, f1_result, precision_result, recall_result, kappa_result, whole_confusion_matrix
 
 
 def cross_validation_two_models(model_1, model_1_name, model_2, model_2_name, features, labels):
@@ -45,7 +45,7 @@ def cross_validation_two_samples(model_1, model_2, model_1_name, model_2_name, f
 """
 Does related Wilcoxon signed-rank tests between two different models
 """
-def wilcoxon_between_models(model_1_results, model_2_results, model_1_name, model_2_name):
+def wilcoxon_between_means(model_1_results, model_2_results, model_1_name, model_2_name):
     # Prints if there's a significant difference in the two models accuracy
     print("Accuracy:")
     print(f"{model_1_name}:{model_1_results[0]:.4f}, {model_2_name}:{model_2_results[0]:.4f} ")
@@ -64,12 +64,30 @@ def wilcoxon_between_models(model_1_results, model_2_results, model_1_name, mode
 """
 Does Wilcoxen signed-rank tests between two different or samples
 """
-def t_test_between_samples(model_1_results, model_2_results, model_1_name, model_2_name):
+def wilcoxen_feature_comparison(model, model_1_name, model_2_name, labels, features_1, features_2,
+                            ):
+    # Gets the cross validated metrics for both models
+    cross_val_result_1 = cross_validation_one_model(model, features_1, labels)
+    cross_val_result_2 = cross_validation_one_model(model, features_2, labels)
+
     # Prints if there's a significant difference in the two models accuracy
-    print("Results:")
-    print(f"{model_1_name}:{model_1_results:.4f}, {model_2_name}:{model_2_results:.4f} ")
-    stat, p_value = stats.wilcoxon(model_1_results, model_2_results)
+    print("Accuracy:")
+    print(f"{model_1_name}:{cross_val_result_1[0].mean():.4f}, {model_2_name}:{cross_val_result_2[0].mean():.4f} ")
+    stat, p_value = stats.wilcoxon(cross_val_result_1[0], cross_val_result_2[0])
     print_if_significant(p_value)
+
+    # Prints if there's a significant difference in the two models F1
+    print("F1:")
+    print(
+        f"{model_1_name}:{cross_val_result_1[1].mean():.4f}, {model_2_name}:{cross_val_result_2[1].mean():.4f} ")
+    stat, p_value = stats.wilcoxon(cross_val_result_1[1], cross_val_result_2[1])
+    print_if_significant(p_value)
+
+    print(f"Confusion matrix for {model_1_name}")
+    print_cm_simple(cross_val_result_1[5])
+    print(f"Confusion matrix for {model_2_name}")
+    print_cm_simple(cross_val_result_2[5])
+
 
 def print_if_significant(p_value):
     if p_value < 0.05:

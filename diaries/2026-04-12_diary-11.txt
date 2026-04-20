@@ -1,0 +1,13 @@
+Author: Beck Chamberlain
+Week: 11 (Ending 12/04/2026)
+
+Supervisor Discussion
+=====================
+- Discussed issues with implementing additional features and agreed that should continue to explore implementing features
+=====================
+
+Action 1: Write Abstract, Background, Analysis, and Process
+    Wrote start of Abstract
+
+Action 2: Implement feature selection on tf-idf
+    Complete saw significant improvement

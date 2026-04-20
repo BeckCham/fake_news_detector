@@ -11,16 +11,18 @@ from scipy.sparse import hstack, csr_matrix
 from src.ingestion.web_scraping import url_to_data
 
 # Loads the vectorizer
-with open('data/embedded/sample_1/tfidf_vectorizer.pkl', 'rb') as file:
+with open('data/embedded/plain/tfidf_vectorizer.pkl', 'rb') as file:
     vectorizer = pickle.load(file)
+    """
 #Loads the scaler
 with open('data/embedded/sample_1/scaler.pkl', 'rb') as file:
     scaler = pickle.load(file)
+    """
 # Loads naive bayes model
-with open('src/models/sample_1/naive_bayes_model.pkl', 'rb') as file:
+with open('src/models/no_added/naive_bayes_model.pkl', 'rb') as file:
     nb_model = pickle.load(file)
 # Loads decision tree model
-with open('src/models/sample_1/naive_bayes_model.pkl', 'rb') as file:
+with open('src/models/no_added/naive_bayes_model.pkl', 'rb') as file:
     dt_model = pickle.load(file)
 
 # Dictionary to map the numeric classifier to the appropriate string
@@ -50,7 +52,7 @@ def predict(url, model_to_use):
 
     # Vectorizes the webpage text
     vectorised_text = vectorizer.transform([text])
-
+    """
     # Gets the additional features
     additional_features = [[
         dmarc_check,
@@ -67,21 +69,25 @@ def predict(url, model_to_use):
         # spelling error frequency
         textual_features[5]
     ]]
+    
     # Scale additional features
     scaled_additional_features = scaler.transform(additional_features)
 
     #Combines data
     combined_webpage_data = hstack((vectorised_text, csr_matrix(scaled_additional_features)))
-
+    """
     # Gets the most likely prediction
     if model_to_use == 'naive_bayes':
-        main_prediction = nb_model.predict(combined_webpage_data)[0]
+        main_prediction = nb_model.predict(vectorised_text)[0]
+        #main_prediction = nb_model.predict(combined_webpage_data)[0]
         # Gets all the probabilities by percentage
-        probabilities = nb_model.predict_proba(combined_webpage_data)[0]
+        #probabilities = nb_model.predict_proba(combined_webpage_data)[0
+        probabilities = nb_model.predict_proba(vectorised_text)[0]
     else:
-        main_prediction = dt_model.predict(combined_webpage_data)[0]
+        print("aa")
+        #main_prediction = dt_model.predict(combined_webpage_data)[0]
         # Gets all the probabilities by percentage
-        probabilities = dt_model.predict_proba(combined_webpage_data)[0]
+        #probabilities = dt_model.predict_proba(combined_webpage_data)[0]
 
     """
     Get top 3 probabilities 

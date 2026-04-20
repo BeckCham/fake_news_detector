@@ -1,5 +1,5 @@
 Author: Beck Chamberlain
-Week: 11 (Ending 12/04/2026)
+Week: 11 (Ending 05/04/2026)
 
 Supervisor Discussion
 =====================
@@ -7,7 +7,10 @@ Supervisor Discussion
 =====================
 
 Action 1: Implement KNN, Random Forest, and SVM
+    Complete
 
 Action 2: Write Abstract, Background, Analysis, and Process
+    Wrote start of Abstract
 
-Action 3:
+Action 3: Implement feature selection for extra features
+    Complete

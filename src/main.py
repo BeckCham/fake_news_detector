@@ -1,5 +1,8 @@
 """
-
+Filename: main.py
+Author: Beck Chamberlain
+Version: 0.07
+Description:
 """
 import csv
 import pickle
@@ -17,7 +20,7 @@ from src.preprocessing.lfr import create_tfidf_dataset
 
 
 #if __name__ == "__main__":
- #   run_gui()
+#    run_gui()
 
 """
 Preprocesses the csv file given
@@ -37,7 +40,7 @@ from src.preprocessing import csv_analysis
 
 # csv_analysis.size_of_dataframe('data/samples/news_sample_10000.csv')
 
-# csv_analysis.number_of_missing_data('data/cleaned/cleaned_sample_1.csv')
+csv_analysis.number_of_missing_data('data/samples/news_sample_10000_1.csv')
 # csv_analysis.number_of_non_english_articles('data/samples/news_sample_10000_2.csv')
 # csv_analysis.class_balance("data/cleaned/cleaned.csv")
 """
@@ -58,7 +61,7 @@ print_results(dt_model, features, labels)
 Applies tf-idf to cleaned news sample
 """
 from src.preprocessing.lfr import create_tfidf_dataset,prepare_data
-#create_tfidf_dataset(*prepare_data('data/cleaned/cleaned_sample.csv'))
+#create_tfidf_dataset(*prepare_data('data/cleaned/cleaned_sample_1_plain.csv'))
 """
 Runs NB
 """
@@ -95,11 +98,15 @@ from src.preprocessing import added_features
 """
 Does Wilcoxen tests between two different models
 """
-from src.models.model_comparison import t_test_between_samples, cross_validation_one_model
+from src.models.model_comparison import wilcoxon_between_means, cross_validation_one_model
 #t_test_between_samples(77.42,77.51,"sample 1","sample 2")
 """
 Performs feature selection
 """
 from src.preprocessing.lfr import prepare_data
-from src.preprocessing.feature_selection import test_features_individually
-test_features_individually(*prepare_data('data/cleaned/cleaned_sample.csv')[:3])
+from src.preprocessing.feature_selection import test_features_individually,find_best_combination_of_features, check_best_combination,tf_idf_feature_selection_with_varying_features
+#test_features_individually(*prepare_data('data/cleaned/cleaned_sample.csv')[:3])
+#find_best_combination_of_features(*prepare_data('data/cleaned/cleaned_sample.csv')[:3])
+#check_best_combination(*prepare_data('data/cleaned/cleaned_sample.csv')[:3])
+#prepared_data = prepare_data('data/cleaned/cleaned_sample_1.csv')
+#tf_idf_feature_selection_with_varying_features(prepared_data[0], prepared_data[2],"svm")

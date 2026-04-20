@@ -117,12 +117,8 @@ def add_extra_features(dataframe):
     dataframe['dmarc_check'] = dataframe['domain'].apply(added_features.dmarc_check)
     # Gets textual analysis information and adds features to the dataset
     textual_features = dataframe['content'].apply(added_features.textual_analysis)
-    dataframe['exclamation_marks_frequency'] = textual_features.apply(lambda x: x[0])
-    dataframe['question_marks_frequency'] = textual_features.apply(lambda x: x[1])
-    dataframe['uppercase_word_frequency'] = textual_features.apply(lambda x: x[2])
-    dataframe['sentence_length'] = textual_features.apply(lambda x: x[3])
-    dataframe['language_diversity'] = textual_features.apply(lambda x: x[4])
-    dataframe['spelling_error_frequency'] = textual_features.apply(lambda x: x[5])
+    dataframe['uppercase_word_frequency'] = textual_features.apply(lambda x: x[0])
+    dataframe['sentence_length'] = textual_features.apply(lambda x: x[1])
     return dataframe
 
 
