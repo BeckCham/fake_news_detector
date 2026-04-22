@@ -48,17 +48,17 @@ Does related Wilcoxon signed-rank tests between two different models
 def wilcoxon_between_means(model_1_results, model_2_results, model_1_name, model_2_name):
     # Prints if there's a significant difference in the two models accuracy
     print("Accuracy:")
-    print(f"{model_1_name}:{model_1_results[0]:.4f}, {model_2_name}:{model_2_results[0]:.4f} ")
+    print(f"{model_1_name}:{model_1_results[0].mean():.4f}, {model_2_name}:{model_2_results[0].mean():.4f} ")
     stat, p_value = stats.wilcoxon(model_1_results[0], model_2_results[0])
     print_if_significant(p_value)
     # Prints if there's a significant difference in the two models F1
     print("F1:")
-    print(f"{model_1_name}:{model_1_results[1]:.4f}, {model_2_name}:{model_2_results[1]:.4f} ")
+    print(f"{model_1_name}:{model_1_results[1].mean():.4f}, {model_2_name}:{model_2_results[1].mean():.4f} ")
     stat, p_value = stats.wilcoxon(model_1_results[1], model_2_results[1])
     print_if_significant(p_value)
     # Prints if there's a significant difference in the two models kappa
     print("Kappa:")
-    print(f"{model_1_name}:{model_1_results[4]:.4f}, {model_2_name}:{model_2_results[4]:.4f} ")
+    print(f"{model_1_name}:{model_1_results[4].mean():.4f}, {model_2_name}:{model_2_results[4].mean():.4f} ")
     stat, p_value = stats.wilcoxon(model_1_results[4], model_2_results[4])
     print_if_significant(p_value)
 """

@@ -40,14 +40,14 @@ def prepare_data(csv_file):
     additional_feature_column_names = [
         'dmarc_check',
         'uppercase_word_frequency',
-        'sentence_length'
+        'language_diversity',
+        'spelling_error_frequency',
     ]
     additional_features = sample_dataframe[additional_feature_column_names].values
 
     # Scale additional features with MinMaxScaler
     scaler = MinMaxScaler()
     scaled_additional_features = scaler.fit_transform(additional_features)
-
 
     #Sets the labels
     labels = sample_dataframe['classification'].values
@@ -72,15 +72,13 @@ def create_tfidf_dataset(vectorized_combined_text, scaled_additional_features, l
     with open('data/embedded/scaler.pkl', 'wb') as f:
         pickle.dump(scalar, f)
 
-    # Combine vectorised text and additional features
-    from scipy.sparse import hstack, csr_matrix
-    combined_features =hstack([vectorized_combined_text, csr_matrix(scaled_additional_features)])
-
     # Saves features and their associated labels
-    np.save('data/embedded/labels_tfidf.npy', labels)
+    np.save('data/embedded/labels.npy', labels)
 
-    np.save('data/embedded/features_tfidf.npy', combined_features.toarray())
+    np.save('data/embedded/tf_idf.npy', vectorized_combined_text.toarray())
+
+    np.save('data/embedded/additional_features.npy', scaled_additional_features)
 
     # Saves the vectorizer so it can be used on new webpages
-    with open('data/embedded/tfidf_vectorizer.pkl', 'wb') as file:
+    with open('data/embedded/tf_idf_vectorizer.pkl', 'wb') as file:
         pickle.dump(vectorizer, file)

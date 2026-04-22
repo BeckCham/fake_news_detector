@@ -74,9 +74,9 @@ def tf_idf_feature_selection_with_varying_features(tf_idf,labels,model_type):
         return
 
     baseline_results = cross_validation_one_model(model, tf_idf, labels)
-    baseline_accuray = baseline_results[0].mean()
+    baseline_accuracy = baseline_results[0].mean()
     baseline_f1 = baseline_results[1].mean()
-    print(f"baseline accuracy: {baseline_accuray:.4}")
+    print(f"baseline accuracy: {baseline_accuracy:.4}")
     print(f"baseline F1: {baseline_f1:.4}")
 
     best_accuracy_result = [baseline_results[0].mean(),"baseline",tf_idf]
@@ -139,8 +139,8 @@ def test_features_individually(tf_idf,additional_features, labels):
     #Get baseline results with tf-idf using cross validation
     baseline_results = cross_validation_one_model(model, tf_idf, labels)
     print("Baseline just tf-idf")
-    print(f"Accuracy: {baseline_results[0]:.4}")
-    print(f"F1: {baseline_results[1]:.4}")
+    print(f"Accuracy: {baseline_results[0].mean():.4}")
+    print(f"F1: {baseline_results[1].mean():.4}")
 
     #Gets which model has the best results for accuracy and f1
     current_best_accuracy = [baseline_results[0],"baseline"]
@@ -160,10 +160,10 @@ def test_features_individually(tf_idf,additional_features, labels):
         wilcoxon_between_means(baseline_results, combined_features_results,"baseline",feature_name)
 
         #Updates the best accuracy/f1 if its relevant
-        if combined_features_results[0] > current_best_accuracy[0]:
-            current_best_accuracy = [combined_features_results[0],additional_feature_names[index]]
-        if combined_features_results[1] > current_best_f1[0]:
-            current_best_f1 = [combined_features_results[1],additional_feature_names[index]]
+        if combined_features_results[0].mean() > current_best_accuracy[0].mean():
+            current_best_accuracy = [combined_features_results[0].mean(),additional_feature_names[index]]
+        if combined_features_results[1].mean() > current_best_f1[0].mean():
+            current_best_f1 = [combined_features_results[1].mean(),additional_feature_names[index]]
 
 
     print(f"Best Accuracy score: {current_best_accuracy[1]},{current_best_accuracy[0]:.4}")
@@ -193,8 +193,8 @@ def find_best_combination_of_features(tf_idf,additional_features,labels):
     baseline_results = cross_validation_one_model(model, tf_idf, labels)
 
     print("Baseline just tf-idf")
-    print(f"Accuracy: {baseline_results[0]:.4}")
-    print(f"F1: {baseline_results[1]:.4}")
+    print(f"Accuracy: {baseline_results[0].mean():.4}")
+    print(f"F1: {baseline_results[1].mean():.4}")
 
     # Gets which model has the best results for accuracy and f1
     current_best_accuracy = [baseline_results[0], [["baseline"]]]
@@ -215,19 +215,17 @@ def find_best_combination_of_features(tf_idf,additional_features,labels):
             # Gets the names of all the columns in the current combination
             combination_names = [additional_feature_names[feature_index] for feature_index in combination]
 
-            if combination_results[0] > current_best_accuracy[0]:
+            if combination_results[0].mean() > current_best_accuracy[0].mean():
                 current_best_accuracy = [combination_results[0],combination_names]
-            if combination_results[1] > current_best_f1[0]:
+            if combination_results[1].mean() > current_best_f1[0].mean():
                 current_best_f1 = [combination_results[1],combination_names]
 
     print("Best accuracy combination")
-    print(round(current_best_accuracy[0],4))
-    print(round(current_best_accuracy[1],4))
-    wilcoxon_between_means(baseline_results[0],current_best_accuracy[0],"baseline",'new_best_accuracy')
+    print(round(current_best_accuracy[0].mean(),4))
+    print(current_best_accuracy[1])
     print("Best F1 combination")
-    print(round(current_best_f1[0],4))
-    print(round(current_best_f1[0],4))
-    wilcoxon_between_means(baseline_results[0], current_best_f1[0], "baseline", 'new_best_f1')
+    print(round(current_best_f1[0].mean(),4))
+    print(current_best_f1[1])
 
 def check_best_combination(tf_idf,additional_features,labels):
     model = MultinomialNB(alpha=1.0)
@@ -235,7 +233,7 @@ def check_best_combination(tf_idf,additional_features,labels):
     # Make it so tf-idf is 2D and an array
     tf_idf_combinable = tf_idf.toarray()
 
-    best_combination_features = additional_features[:, [0,3,4]]
+    best_combination_features = additional_features[:, [0,3,5,6]]
     merged_best_combination = np.hstack((tf_idf_combinable, best_combination_features))
 
     wilcoxen_feature_comparison(model,"baseline","feature_selection",labels,tf_idf_combinable,merged_best_combination)

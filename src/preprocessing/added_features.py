@@ -200,7 +200,7 @@ def textual_analysis(body_of_text):
         average_sentence_length = 0
 
     #Gets how many spelling mistakes there are per word
-    #mistakes_per_word = spelling_check(body_of_text)
+    mistakes_per_word = spelling_check(body_of_text)
 
     #Gets number of full upper case words excluding one-letter words eg "I"
     if number_of_words > 0:
@@ -210,8 +210,8 @@ def textual_analysis(body_of_text):
         uppercase_words_frequency = 0
 
     #Calulates how many words are unique out of all the words
-    #diversity_in_language = round(len(set(words)) / number_of_words, 3)
+    diversity_in_language = round(len(set(words)) / number_of_words, 3)
 
-    return uppercase_words_frequency, average_sentence_length
+    return uppercase_words_frequency, diversity_in_language, mistakes_per_word
 
 

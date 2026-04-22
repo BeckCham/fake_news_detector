@@ -90,7 +90,7 @@ def combining_textual_features(dataframe):
 
     dataframe['combined_text'] = (
         # Adds the domain name twice as it can contain important words eg "patriot"
-            dataframe['domain'] + ' ' + dataframe['domain'] + ' ' +
+            #dataframe['domain'] + ' ' + dataframe['domain'] + ' ' +
             # Adds the title twice as its shown to be a good indicator of the validity of news
             dataframe['title'] + ' ' + dataframe['title'] + ' ' +
             # Adds the tags/meta keywords twice as it will emphasize keywords further
@@ -118,7 +118,9 @@ def add_extra_features(dataframe):
     # Gets textual analysis information and adds features to the dataset
     textual_features = dataframe['content'].apply(added_features.textual_analysis)
     dataframe['uppercase_word_frequency'] = textual_features.apply(lambda x: x[0])
-    dataframe['sentence_length'] = textual_features.apply(lambda x: x[1])
+    dataframe['language_diversity'] = textual_features.apply(lambda x: x[1])
+    dataframe['spelling_error_frequency'] = textual_features.apply(lambda x: x[2])
+
     return dataframe
 
 
