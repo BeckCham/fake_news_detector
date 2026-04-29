@@ -91,6 +91,7 @@ def tf_idf_feature_selection_with_varying_features(tf_idf,labels,model_type):
         variation_accuracy_results = results_for_k_variation[0].mean()
         variation_f1_results = results_for_k_variation[1].mean()
 
+
         if variation_accuracy_results > best_accuracy_result[0]:
             best_accuracy_result[0] = variation_accuracy_results
             best_accuracy_result[1] = k
@@ -103,7 +104,7 @@ def tf_idf_feature_selection_with_varying_features(tf_idf,labels,model_type):
     print(f"Best Accuracy model: {best_accuracy_result[1]}")
     wilcoxen_feature_comparison(model,"baseline","new best accuracy",labels,tf_idf,best_accuracy_result[2])
 
-    if best_accuracy_result[1] == best_f1_result[1]:
+    if best_accuracy_result[1] != best_f1_result[1]:
         print(f"Best F1 model: {best_f1_result[1]}")
         wilcoxen_feature_comparison(model, "baseline", "new best F1", labels, tf_idf, best_f1_result[2])
     else:

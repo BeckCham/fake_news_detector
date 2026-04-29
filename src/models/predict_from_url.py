@@ -11,7 +11,7 @@ from scipy.sparse import hstack, csr_matrix
 from src.ingestion.web_scraping import url_to_data
 
 # Loads the vectorizer
-with open('data/embedded/plain/tfidf_vectorizer.pkl', 'rb') as file:
+with open('data/embedded/sample_1/tf_idf_vectorizer.pkl', 'rb') as file:
     vectorizer = pickle.load(file)
     """
 #Loads the scaler

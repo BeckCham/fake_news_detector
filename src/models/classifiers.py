@@ -16,7 +16,7 @@ import pickle
 from scipy.sparse import hstack, csr_matrix
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.svm import LinearSVC
+from sklearn.svm import LinearSVC, SVC
 
 from src.models import model_comparison
 from sklearn.naive_bayes import MultinomialNB
@@ -34,53 +34,33 @@ def train_model(model_to_train, sample_identifier, feature_selection):
     # Loads the TF-IDF features/labels
     labels = np.load(f'data/embedded/sample_{sample_identifier}/labels.npy')
     vectorised_text = np.load(f'data/embedded/sample_{sample_identifier}/tf_idf.npy')
-    #additional_features = np.load(f'data/embedded/sample_{sample_identifier}/additional_features.npy')
+    additional_features = np.load(f'data/embedded/sample_{sample_identifier}/additional_features.npy')
 
     if model_to_train == "naive_bayes":
         print("Training Naive Bayes")
         model = MultinomialNB(
-            alpha=1.0,  # Smoothing parameter
-            class_prior=None  # Set class weights
+            alpha=0.1,  # Smoothing parameter
         )
-        k = 1000
+        k = 3000
     elif model_to_train == "decision_tree":
         print("Training Decision Tree")
         model = DecisionTreeClassifier(
-            criterion='gini',  # What to use to determine split
-            splitter='best',  # How to choose split
-            max_depth=20,  # Limits tree depth/overfitting
-            min_samples_split=10,  # How many samples needed to split node
-            min_samples_leaf=5,  # Minimum samples needed for a leaf
-            min_weight_fraction_leaf=0.0,  # Minimum weighted fraction in leaf
-            max_features=None,  # How many features to consider per split
-            random_state=3,  # Random seed
-            max_leaf_nodes=None,  # Maximum number of leaves
-            min_impurity_decrease=0.0,  # Split only if it decreases impurity by set amount
-            class_weight=None,  # Handles imbalanced classes
-            ccp_alpha=0.0  # Prunes tree
+            max_features=0.5,  # How many features to consider per split
         )
-        k = 1000
+        k = 6000
     elif model_to_train == "random_forest":
         print("Training Random Forest")
         model = RandomForestClassifier(
-            n_estimators=100,  # Number of trees
-            criterion='gini',  # Split quality measure
-            max_depth=None,  # Max depth of trees
-            min_samples_split=10,  # How many samples needed to split a node
-            min_samples_leaf=5,  # Minimum samples needed for a leaf
-            max_features='sqrt',  # Max features per split
-            bootstrap=True,  # If sampling should be replacement
-            random_state=3,  # Random seed
-            class_weight=None,  # For imbalanced classes
-            n_jobs=-1  # How many cpu cores to use
+            n_estimators=200,  # Number of trees
+            min_samples_split=8,  # How many samples needed to split a node
         )
-        k = 4000
+        k = 6000
     elif model_to_train == "knn":
         print("Training KNN")
         model = KNeighborsClassifier(
-            n_neighbors=5,  # Number of neighbours to consider
-            weights='uniform',  # How neighbours should be weighted
-            algorithm='brute',  # Type of algorithm
+            n_neighbors=11,  # Number of neighbours to consider
+            weights='distance',  # How neighbours should be weighted
+            algorithm='auto',  # Type of algorithm
             metric='cosine',  # Distance formula
         )
         k = 1000
@@ -96,14 +76,14 @@ def train_model(model_to_train, sample_identifier, feature_selection):
     else:
         return
 
-    if feature_selection:
+    if feature_selection and k<6000:
         # Selects the best k features from the vectorized text
         selector = SelectKBest(chi2, k=k)
         vectorised_text = selector.fit_transform(vectorised_text, labels)
-    # Combines vectorized text and additional features
-    #features = hstack([vectorised_text, csr_matrix(additional_features)]).toarray()
-    ##############################DELETE
-    features = vectorised_text
+
+    #Combines vectorized text and additional features
+    features = hstack([vectorised_text, csr_matrix(additional_features)]).toarray()
+
     model.fit(features, labels)
 
     # Validates and prints the model
@@ -146,25 +126,24 @@ def grid_search(model_to_train, sample_number):
             #Decision Tree
             model = DecisionTreeClassifier()
             param_grid = {
-                'max_depth': [30],
-                'min_samples_split': [15],
-                'min_samples_leaf': [5],
-                'criterion': ['gini', 'entropy'],
+                'max_depth': [None,35],
+                'min_samples_split': [1,2,3],
+                'min_samples_leaf': [1,2],
+                'criterion': ['gini','entropy'],
                 'random_state': [3],
-                'max_features': [None, 'sqrt', 'log2', 0.5]
+                'max_features': [0.5]
             }
         case 'random_forest':
             #Random forest
             model = RandomForestClassifier()
             param_grid = {
-                'criterion': ['gini', 'entropy'],
-                'n_estimators': [50, 100, 150, 200],
-                'max_depth': [20, 25, 30, None],
-                'min_samples_split': [5, 10, 15],
-                'min_samples_leaf': [2, 5, 9],
-                'max_features': ['sqrt', 'log2'],
+                #'max_depth': [20, 25, 30, None],
+                'min_samples_split': [8],
+                #'min_samples_leaf': [2, 5, 9],
+                #'max_features': [0.5],
                 'random_state': [3],
-                'class_weight': [None, 'balanced']
+                #'criterion': ['gini', 'entropy'],
+                'n_estimators': [150]
             }
         case 'knn':
             #KNN
@@ -172,7 +151,19 @@ def grid_search(model_to_train, sample_number):
             param_grid = {
                 'n_neighbors': [3,5,7,9,11],
                 'weights': ['uniform', 'distance'],
-                'metric': ['euclidean', 'cosine']
+                'metric': ['euclidean', 'cosine'],
+                'algorithm': ['auto', 'brute']
+            }
+        case 'svm':
+            #SVM
+            model = LinearSVC()
+            param_grid = {
+                'max_iter': [1000,3000,5000,8000],
+                #'penalty': ['l1', 'l2'],
+                #'loss': ['hinge', 'squared_hinge'],
+                #'tol': [1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1, 10],
+                #'C': [0.01,0.1,1,10]
+
             }
     #Perform grid search with selected model
     grid_search = GridSearchCV(

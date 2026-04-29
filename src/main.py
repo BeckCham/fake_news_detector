@@ -17,10 +17,10 @@ from src.ingestion.web_scraping import url_to_data
 from src.preprocessing.lfr import create_tfidf_dataset
 #from src.ui.gui import run_gui
 
-
+print("AAA")
 
 #if __name__ == "__main__":
-#    run_gui()
+    #run_gui()
 
 """
 Preprocesses the csv file given
@@ -61,30 +61,30 @@ print_results(dt_model, features, labels)
 Applies tf-idf to cleaned news sample
 """
 from src.preprocessing.lfr import create_tfidf_dataset,prepare_data
-#create_tfidf_dataset(*prepare_data('data/cleaned/cleaned_sample.csv'))
+#create_tfidf_dataset(*prepare_data('data/cleaned/cleaned_sample_1.csv'))
 """
 Runs NB
 """
 from src.models.classifiers import train_model, grid_search
 
-#classifiers.train_model("naive_bayes", '3_no_added',False)
+#classifiers.train_model("naive_bayes", '1',True)
 #classifiers.run_naive_bayes()
 """
 Runs Decision Tree
 """
-#classifiers.train_model("decision_tree", '3_no_added',False)
+#classifiers.train_model("decision_tree", '1',True)
 """
 Runs Random Forest
 """
-#classifiers.train_model("random_forest", '3_no_added',False)
+#classifiers.train_model("random_forest", '1',True)
 """
 Runs KNN
 """
-#classifiers.train_model("knn", '3_no_added',False)
+#classifiers.train_model("knn", '1',True)
 """
 Runs SVM
 """
-#classifiers.train_model("svm", '3_no_added',False)
+#classifiers.train_model("svm", '1',True)
 """
 Predict from url with nb
 """
@@ -108,9 +108,10 @@ from src.preprocessing.feature_selection import test_features_individually,find_
 #test_features_individually(*prepare_data('data/cleaned/cleaned_sample.csv')[:3])
 #find_best_combination_of_features(*prepare_data('data/cleaned/cleaned_sample.csv')[:3])
 #check_best_combination(*prepare_data('data/cleaned/cleaned_sample.csv')[:3])
-prepared_data = prepare_data('data/cleaned/cleaned_sample_1.csv')
-tf_idf_feature_selection_with_varying_features(prepared_data[0], prepared_data[2],"random_forest")
+#prepared_data = prepare_data('data/cleaned/cleaned_sample_1.csv')
+#tf_idf_feature_selection_with_varying_features(prepared_data[0], prepared_data[2],"naive_bayes")
 """
 Find best hyperparameters
 """
-#grid_search('naive_bayes', 1)
+print("aa")
+grid_search('svm', 1)
