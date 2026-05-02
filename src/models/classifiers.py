@@ -14,7 +14,8 @@ import numpy as np
 import pickle
 
 from scipy.sparse import hstack, csr_matrix
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.calibration import CalibratedClassifierCV
+from sklearn.ensemble import RandomForestClassifier, VotingClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import LinearSVC, SVC
 
@@ -35,7 +36,7 @@ def train_model(model_to_train, sample_identifier, feature_selection):
     labels = np.load(f'data/embedded/sample_{sample_identifier}/labels.npy')
     vectorised_text = np.load(f'data/embedded/sample_{sample_identifier}/tf_idf.npy')
     additional_features = np.load(f'data/embedded/sample_{sample_identifier}/additional_features.npy')
-
+    k = 0
     if model_to_train == "naive_bayes":
         print("Training Naive Bayes")
         model = MultinomialNB(
@@ -47,14 +48,14 @@ def train_model(model_to_train, sample_identifier, feature_selection):
         model = DecisionTreeClassifier(
             max_features=0.5,  # How many features to consider per split
         )
-        k = 6000
+        k = 3000
     elif model_to_train == "random_forest":
         print("Training Random Forest")
         model = RandomForestClassifier(
             n_estimators=200,  # Number of trees
             min_samples_split=8,  # How many samples needed to split a node
         )
-        k = 6000
+        k = 3000
     elif model_to_train == "knn":
         print("Training KNN")
         model = KNeighborsClassifier(
@@ -63,23 +64,57 @@ def train_model(model_to_train, sample_identifier, feature_selection):
             algorithm='auto',  # Type of algorithm
             metric='cosine',  # Distance formula
         )
-        k = 1000
+        k = 3000
     elif model_to_train == "svm":
         print("Training SVM")
-        model = LinearSVC(  # LinearSVC much faster than SVC on high dimensional TF-IDF data
-            C=10.0,  # How simple/complex the model should be
-            max_iter=1000,  # Maximum iterations to look for best solution
+        base_model = LinearSVC(
+            C=1,  # How simple/complex the model should be
             random_state=3,  # Random seed
-            class_weight=None  # For handling imbalanced classes
+            tol=0.1,
+            loss='squared_hinge',
+            penalty='l1',
         )
-        k = 2000
+        model = CalibratedClassifierCV(base_model, cv=10)
+        k = 3000
+    elif model_to_train == "voting":
+        print("Voting Classifier")
+        # Loads random forest model
+        with open('src/models/sample_1/random_forest_model.pkl', 'rb') as file:
+            rf_model = pickle.load(file)
+        # Loads SVM model
+        with open('src/models/sample_1/svm_model.pkl', 'rb') as file:
+            svm_model = pickle.load(file)
+        #Loads knn
+        with open('src/models/sample_1/knn_model.pkl', 'rb') as file:
+            knn_model = pickle.load(file)
+        # Loads nb
+        with open('src/models/sample_1/naive_bayes_model.pkl', 'rb') as file:
+            nb_model = pickle.load(file)
+        # Loads nb
+        with open('src/models/sample_1/decision_tree_model.pkl', 'rb') as file:
+            dt_model = pickle.load(file)
+        #sets voting model
+        model = VotingClassifier(
+            estimators=[
+                ('svm', svm_model),
+                ('rf', rf_model),
+                ('decision_tree', dt_model),
+                ('knn', knn_model),
+                ('naive_bayes', nb_model),
+            ],
+            voting='soft'
+        )
+        k = 3000
     else:
         return
 
-    if feature_selection and k<6000:
+    if feature_selection and k <6000:
         # Selects the best k features from the vectorized text
         selector = SelectKBest(chi2, k=k)
         vectorised_text = selector.fit_transform(vectorised_text, labels)
+        #Saves selector
+        with open(f'src/models/sample_{sample_identifier}/selector_{model_to_train}.pkl', 'wb') as file:
+            pickle.dump(selector, file)
 
     #Combines vectorized text and additional features
     features = hstack([vectorised_text, csr_matrix(additional_features)]).toarray()
@@ -120,7 +155,8 @@ def grid_search(model_to_train, sample_number):
             #Naive Bayes
             model = MultinomialNB()
             param_grid = {
-                'alpha' : [0.1, 0.5, 1, 2, 5, 10]
+                'alpha' : [0.1, 0.5, 1, 2, 5, 10],
+                'random_state' : [3]
             }
         case 'decision_tree':
             #Decision Tree
@@ -149,6 +185,7 @@ def grid_search(model_to_train, sample_number):
             #KNN
             model = KNeighborsClassifier()
             param_grid = {
+                'random_state': [3],
                 'n_neighbors': [3,5,7,9,11],
                 'weights': ['uniform', 'distance'],
                 'metric': ['euclidean', 'cosine'],
@@ -156,14 +193,11 @@ def grid_search(model_to_train, sample_number):
             }
         case 'svm':
             #SVM
-            model = LinearSVC()
+            model = SVC()
             param_grid = {
-                'max_iter': [1000,3000,5000,8000],
-                #'penalty': ['l1', 'l2'],
-                #'loss': ['hinge', 'squared_hinge'],
-                #'tol': [1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1, 10],
-                #'C': [0.01,0.1,1,10]
-
+                'random_state': [3],
+                'tol': [ 0.01,0.1,1,5],
+                'C': [0.01,0.1,1,5]
             }
     #Perform grid search with selected model
     grid_search = GridSearchCV(

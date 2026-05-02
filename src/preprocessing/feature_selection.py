@@ -10,11 +10,41 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.feature_selection import SelectKBest, chi2
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.svm import LinearSVC
+from sklearn.svm import LinearSVC, SVC
 from sklearn.tree import DecisionTreeClassifier
 
 from src.models.model_comparison import cross_validation_one_model, wilcoxen_feature_comparison, wilcoxon_between_means
 from itertools import combinations
+
+def tf_idf_print_accuracies_with_change(tf_idf,labels):
+
+    dt_model = DecisionTreeClassifier(
+        max_features=0.5,  # How many features to consider per split
+    )
+    rf_model = RandomForestClassifier(
+        n_estimators=200,  # Number of trees
+        min_samples_split=8,  # How many samples needed to split a node
+    )
+    svm_model = LinearSVC(
+        C=1,  # How simple/complex the model should be
+        random_state=3,  # Random seed
+        tol=0.1,
+        loss='squared_hinge',
+        penalty='l1',
+    )
+    models = [dt_model,rf_model,svm_model]
+    model_names = ["dt_model","rf_model","svm_model"]
+    for k in range(1000,6001,+1000):
+        print(f"K is {k}")
+        # Select the best k features
+        selector = SelectKBest(chi2,k=k)
+        best_features = selector.fit_transform(tf_idf, labels)
+
+        #Gets the results for that variation
+        for index in range(0,3):
+            print(f"Model: {model_names[index]}")
+            results_for_k_variation = cross_validation_one_model(models[index], best_features, labels)
+            print(f"F1 results: {results_for_k_variation[1].mean():.4f}")
 
 def tf_idf_feature_selection_with_varying_features(tf_idf,labels,model_type):
     """
@@ -64,11 +94,12 @@ def tf_idf_feature_selection_with_varying_features(tf_idf,labels,model_type):
             n_jobs=-1  # How many CPU cores to use
         )
     elif model_type == "svm":
-        model = LinearSVC(  # LinearSVC much faster than SVC on high dimensional TF-IDF data
-            C=10.0,  # How simple/complex the model should be
-            max_iter=1000,  # Maximum iterations to look for best solution
+        model = LinearSVC(
+            C=1,  # How simple/complex the model should be
             random_state=3,  # Random seed
-            class_weight=None  # For handling imbalanced classes
+            tol=0.1,
+            loss='squared_hinge',
+            penalty='l1',
         )
     else:
         return
@@ -81,7 +112,7 @@ def tf_idf_feature_selection_with_varying_features(tf_idf,labels,model_type):
 
     best_accuracy_result = [baseline_results[0].mean(),"baseline",tf_idf]
     best_f1_result = [baseline_results[1].mean(),"baseline",tf_idf]
-    for k in range(1000,5000,+1000):
+    for k in range(1000,5001,+1000):
         # Select the best k features
         selector = SelectKBest(chi2,k=k)
         best_features = selector.fit_transform(tf_idf, labels)

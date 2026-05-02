@@ -46,7 +46,6 @@ Action 1: Read publications & decide how to preprocess data (Continued from week
             Defines two major classification methods: linguistic cue & network analysis
             Combines both methods to optimise
             (I will only be focusing on former, use this to explain why accuracy low)
-        https://asistdl.onlinelibrary.wiley.com/doi/full/10.1002/pra2.2015.145052010083
             Gives requirements for fake news detection:
             - Availability of both truthful and deceptive instances
             - Digital textual format accessibility

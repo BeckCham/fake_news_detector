@@ -15,12 +15,13 @@ from src.models import classifiers
 from src.preprocessing import csv_cleaning, added_features
 from src.ingestion.web_scraping import url_to_data
 from src.preprocessing.lfr import create_tfidf_dataset
+
 #from src.ui.gui import run_gui
 
-print("AAA")
 
 #if __name__ == "__main__":
     #run_gui()
+
 
 """
 Preprocesses the csv file given
@@ -76,6 +77,7 @@ Runs Decision Tree
 """
 Runs Random Forest
 """
+#
 #classifiers.train_model("random_forest", '1',True)
 """
 Runs KNN
@@ -104,14 +106,22 @@ from src.models.model_comparison import wilcoxon_between_means, cross_validation
 Performs feature selection
 """
 from src.preprocessing.lfr import prepare_data
-from src.preprocessing.feature_selection import test_features_individually,find_best_combination_of_features, check_best_combination,tf_idf_feature_selection_with_varying_features
+from src.preprocessing.feature_selection import test_features_individually,find_best_combination_of_features, check_best_combination,tf_idf_feature_selection_with_varying_features,tf_idf_print_accuracies_with_change
 #test_features_individually(*prepare_data('data/cleaned/cleaned_sample.csv')[:3])
 #find_best_combination_of_features(*prepare_data('data/cleaned/cleaned_sample.csv')[:3])
 #check_best_combination(*prepare_data('data/cleaned/cleaned_sample.csv')[:3])
 #prepared_data = prepare_data('data/cleaned/cleaned_sample_1.csv')
-#tf_idf_feature_selection_with_varying_features(prepared_data[0], prepared_data[2],"naive_bayes")
+#tf_idf_feature_selection_with_varying_features(prepared_data[0], prepared_data[2],"svm")
+#tf_idf_print_accuracies_with_change(prepared_data[0], prepared_data[2])
 """
 Find best hyperparameters
 """
-print("aa")
-grid_search('svm', 1)
+#grid_search('svm', 1)
+"""
+Check if models are significantly diffrent
+"""
+
+"""
+Train voting model
+"""
+#classifiers.train_model("voting", '1',True)

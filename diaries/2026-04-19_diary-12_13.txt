@@ -1,12 +1,14 @@
 Author: Beck Chamberlain
-Week: 12 (Ending 19/04/2026)
+Week: 12/13 (Ending 19/04/2026 & 28/04/2026)
 
 Supervisor Discussion
 =====================
 - Discussed personal issues had caused lower productivity and the start of project writing.
+- Missed first
 =====================
 
 Action 1: Write Abstract, Background, Analysis, and Process
     Started on background, completed a lot of analysis and started on progress
 
-Action 2: Complete tuning on models
+Action 2: Complete tuning on all models
+    Done & found if significant
