@@ -1,35 +1,66 @@
 """
 https://www.geeksforgeeks.org/python/count-values-in-pandas-dataframe/
 """
+import csv
 import pandas as pd
 from langdetect import detect
 
 
 def number_of_non_english_articles(csv_file):
-    dataframe = pd.read_csv(csv_file, low_memory=False)
+    """
+    Prints the number of non english articles from the given csv file
+    :param csv_file: The csv file to extract number of non-english articles from
+    """
+    # Loads the CSV file into a dataframe
+    dataframe = pd.read_csv(csv_file)
+    # Prints the size of the dataframe before articles are removed
     print(f"Before: {len(dataframe)} articles")
-    df = dataframe[dataframe['content'].apply(lambda article_content: detect(article_content) == 'en')]  # AI
-    print(f"After: {len(df)} articles")
-    print(len(dataframe))
+    # Removes the articles that are detected to not be in english
+    english_dataframe = dataframe[dataframe['content'].apply(lambda article_content: detect(article_content) == 'en')] # AI
+    # Prints the size of the dataframe after articles are removed
+    print(f"After: {len(english_dataframe)} articles")
+    # Prints the number of non-english articles
+    print(f'The number of non-english articles: {len(dataframe - english_dataframe)}')
 
 
 def size_of_dataframe(csv_file):
+    """
+
+    :param csv_file: The csv file to extract size of
+    """
+    # Loads the CSV file into a dataframe
     dataframe = pd.read_csv(csv_file, low_memory=False)
     print(f"Length of dataframe {len(dataframe)}")
 
 
 def class_balance(csv_file):
+    """
+
+    :param csv_file: The csv file to extract class balance from
+    """
     dataframe = pd.read_csv(csv_file, low_memory=False)
     classifier_labels = ['fake', 'satire', 'bias', 'conspiracy', 'junksci', 'hate', 'clickbait', 'unreliable',
-                         'political',
-                         'reliable']
-    number_of_all_classes = dataframe['classification'].value_counts()
+                         'political','rumor','unknown','reliable']
+    number_of_all_classes = dataframe['type'].value_counts()
     for class_type in classifier_labels:
         number_of_given_class = number_of_all_classes.get(class_type, 0)
         print(f"{class_type}: {number_of_given_class}")
 
+def dataframe_analysis(csv_file):
+    """
+
+    :param csv_file: The csv file to be analysed
+    """
+    dataframe = pd.read_csv(csv_file, low_memory=False)
+    print(dataframe.iloc[-1])
+    print(dataframe.dtypes)
 
 def number_of_missing_data(csv_file):
+    """
+    A
+    :param csv_file:
+    :return:
+    """
     dataframe = pd.read_csv(csv_file, low_memory=False)
 
     # How many rows have NaN values

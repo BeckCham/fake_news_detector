@@ -91,7 +91,5 @@ def predict(url):
             'label': classifier_labels[top_3_predictions[index]],
             'confidence': probabilities[top_3_predictions[index]],
         })
-        print(top_3_prediction_probabilities[index]['label'])
-        print(top_3_prediction_probabilities[index]['confidence'])
 
     return top_3_prediction_probabilities

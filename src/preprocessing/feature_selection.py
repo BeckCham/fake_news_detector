@@ -13,27 +13,31 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import LinearSVC, SVC
 from sklearn.tree import DecisionTreeClassifier
 
-from src.models.model_comparison import cross_validation_one_model, wilcoxen_feature_comparison, wilcoxon_between_means
+from src.models.model_comparison import cross_validation_one_model, wilcoxen_feature_comparison, wilcoxon_between_models
 from itertools import combinations
 
 def tf_idf_print_accuracies_with_change(tf_idf,labels):
 
     dt_model = DecisionTreeClassifier(
-        max_features=0.5,  # How many features to consider per split
+        #max_features=0.5,  # How many features to consider per split
     )
     rf_model = RandomForestClassifier(
-        n_estimators=200,  # Number of trees
-        min_samples_split=8,  # How many samples needed to split a node
+        #n_estimators=200,  # Number of trees
+        #min_samples_split=8,  # How many samples needed to split a node
     )
     svm_model = LinearSVC(
-        C=1,  # How simple/complex the model should be
-        random_state=3,  # Random seed
-        tol=0.1,
-        loss='squared_hinge',
-        penalty='l1',
+        #C=1,  # How simple/complex the model should be
+        #random_state=3,  # Random seed
+        #tol=0.1,
+        #loss='squared_hinge',
+        #penalty='l1',
     )
-    models = [dt_model,rf_model,svm_model]
-    model_names = ["dt_model","rf_model","svm_model"]
+    nb_model = MultinomialNB(
+
+    )
+    knn_model = KNeighborsClassifier()
+    models = [dt_model,rf_model,svm_model,nb_model,knn_model]
+    model_names = ["dt_model","rf_model","svm_model","nb_model","knn_model"]
     for k in range(1000,6001,+1000):
         print(f"K is {k}")
         # Select the best k features
@@ -41,7 +45,7 @@ def tf_idf_print_accuracies_with_change(tf_idf,labels):
         best_features = selector.fit_transform(tf_idf, labels)
 
         #Gets the results for that variation
-        for index in range(0,3):
+        for index in range(0,5):
             print(f"Model: {model_names[index]}")
             results_for_k_variation = cross_validation_one_model(models[index], best_features, labels)
             print(f"F1 results: {results_for_k_variation[1].mean():.4f}")
@@ -53,53 +57,23 @@ def tf_idf_feature_selection_with_varying_features(tf_idf,labels,model_type):
     """
     if model_type == "naive_bayes":
         model = MultinomialNB(
-            alpha=1.0,  # Smoothing parameter
-            class_prior=None  # Set class weights
+
         )
     elif model_type == "decision_tree":
         model = DecisionTreeClassifier(
-            criterion='gini',  # What to use to determine split
-            splitter='best',  # How to choose split
-            max_depth=20,  # Limits tree depth/overfitting
-            min_samples_split=10,  # How many samples needed to split node
-            min_samples_leaf=5,  # Minimum samples needed for a leaf
-            min_weight_fraction_leaf=0.0,  # Minimum weighted fraction in leaf
-            max_features=None,  # How many features to consider per split
-            random_state=3,  # Random seed
-            max_leaf_nodes=None,  # Maximum number of leaves
-            min_impurity_decrease=0.0,  # Split only if it decreases impurity by set amount
-            class_weight=None,  # Handles imbalanced classes
-            ccp_alpha=0.0  # Prunes tree
+
         )
     elif model_type == "random_forest":
         model = RandomForestClassifier(
-            n_estimators=100,  # Number of trees
-            criterion='gini',  # Split quality measure
-            max_depth=None,  # Max depth of trees
-            min_samples_split=10,  # How many samples needed to split a node
-            min_samples_leaf=5,  # Minimum samples needed for a leaf
-            max_features='sqrt',  # Max features per split
-            bootstrap=True,  # If sampling should be replacement
-            random_state=3,  # Random seed
-            class_weight=None,  # For imbalanced classes
-            n_jobs=-1  # How many cpu cores to use
+
         )
     elif model_type == "knn":
         model = KNeighborsClassifier(
-            n_neighbors=5,  # Number of neighbours to consider
-            weights='uniform',  # How neighbours should be weighted
-            algorithm='brute',  # Type of algorithm
-            leaf_size=30,  # Precision of ball-tree/kd_tree algoirthms
-            metric='cosine',  # Distance formula
-            n_jobs=-1  # How many CPU cores to use
+
         )
     elif model_type == "svm":
         model = LinearSVC(
-            C=1,  # How simple/complex the model should be
-            random_state=3,  # Random seed
-            tol=0.1,
-            loss='squared_hinge',
-            penalty='l1',
+
         )
     else:
         return
@@ -189,7 +163,7 @@ def test_features_individually(tf_idf,additional_features, labels):
         combined_features_results = cross_validation_one_model(model, combined_features, labels)
 
         #Compares the combined model with the baseline and prints if theres a significant difference
-        wilcoxon_between_means(baseline_results, combined_features_results,"baseline",feature_name)
+        wilcoxon_between_models(baseline_results, combined_features_results,"baseline",feature_name)
 
         #Updates the best accuracy/f1 if its relevant
         if combined_features_results[0].mean() > current_best_accuracy[0].mean():

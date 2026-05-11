@@ -12,6 +12,7 @@ import requests
 from bs4 import BeautifulSoup
 from langdetect import detect
 from src.preprocessing import added_features
+import contractions
 from src.preprocessing.added_features import dmarc_check, html_w3c_compliance
 
 
@@ -123,14 +124,21 @@ def add_extra_features(dataframe):
 
     return dataframe
 
+def prepare_content_for_word_embedding(dataframe):
+    # Converts all text to lowercase
+    dataframe['combined_text'] = dataframe['combined_text'].str.lower()
+    # Uses contractions library to do negation replacement
+    dataframe['combined_text'] = dataframe['combined_text'].apply(contractions.fix)
+    return dataframe
+
 
 def preprocess_csv(csv_file):
     """
     Preprocesses the given csv file using cleaning, culling, and embedding methods.
     :param csv_file: The csv file to be preprocessed
     """
-    # Converts the csv file into a dataframe using low memory to ensure columns are classified properly
-    dataframe = pd.read_csv(csv_file, low_memory=False)
+    # Loads the CSV file into a dataframe
+    dataframe = pd.read_csv(csv_file)
     # Removes all non english articles
     dataframe = remove_non_english_articles(dataframe)
     # Cleans the meta keywords field
@@ -142,5 +150,7 @@ def preprocess_csv(csv_file):
     dataframe = combining_textual_features(dataframe)
     # Prepares the dataframe for merging
     dataframe.rename(columns={'type': 'classification'}, inplace=True)
+    # Prepares the dataframe for word embedding
+    dataframe = prepare_content_for_word_embedding(dataframe)
     # Saves the cleaned dataframe as a csv
     dataframe.to_csv('data/cleaned/cleaned_sample.csv', index=False)
