@@ -20,14 +20,13 @@ from nltk.tokenize import sent_tokenize
 from spellchecker import SpellChecker
 spell = SpellChecker()
 
-#Load pyspellchecker
 
 #Load sentence tokeniser
 nltk.download("punkt_tab")
 
 def dmarc_check(domain):
     """
-    Checks whether a domain has a DMARC record in its DNS
+    Checks whether a domain has a DMARC record in the DNS
 
     :param domain: The domain to strip & check
     :return: If the domain has a DMARC record or not
@@ -202,15 +201,15 @@ def textual_analysis(body_of_text):
     #Gets how many spelling mistakes there are per word
     mistakes_per_word = spelling_check(body_of_text)
 
-    #Gets number of full upper case words excluding one-letter words eg "I"
     if number_of_words > 0:
+        # Gets number of full upper case words excluding one-letter words eg "I"
         number_of_uppercase_words = sum(1 for word in words if word.isupper() and len(word) > 1)
         uppercase_words_frequency = round(number_of_uppercase_words / number_of_words,3)
+        # Calculates how many words are unique out of all the words
+        diversity_in_language = round(len(set(words)) / number_of_words, 3)
     else:
         uppercase_words_frequency = 0
 
-    #Calulates how many words are unique out of all the words
-    diversity_in_language = round(len(set(words)) / number_of_words, 3)
 
     return uppercase_words_frequency, diversity_in_language, mistakes_per_word
 

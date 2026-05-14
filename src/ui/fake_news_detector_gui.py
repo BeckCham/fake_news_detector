@@ -6,7 +6,7 @@ Description: GUI controller for the Fake News Detector application. Integrates w
         inputs and outputs on the display.
 
 """
-from src.models import predict_from_url
+from src.ui import predict_from_url
 
 
 class FakeNewsDetectorGUI:

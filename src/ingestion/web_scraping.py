@@ -13,10 +13,12 @@ AI Declaration:
     Claude code was also used to get the MetaTags:
     'How can I use beautiful soup to get the Meta keywords from a URL'
 """
-from newspaper import Article
+
 from urllib.parse import urlparse
 from bs4 import BeautifulSoup
 import requests
+from newspaper import Article
+
 from src.preprocessing import added_features
 
 

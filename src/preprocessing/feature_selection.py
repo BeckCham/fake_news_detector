@@ -10,10 +10,10 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.feature_selection import SelectKBest, chi2
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.svm import LinearSVC, SVC
+from sklearn.svm import LinearSVC
 from sklearn.tree import DecisionTreeClassifier
 
-from src.models.model_comparison import cross_validation_one_model, wilcoxen_feature_comparison, wilcoxon_between_models
+from src.training.model_comparison import cross_validation_one_model, wilcoxen_feature_comparison, wilcoxon_between_models
 from itertools import combinations
 
 def tf_idf_print_accuracies_with_change(tf_idf,labels):
