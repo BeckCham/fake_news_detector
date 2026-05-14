@@ -11,19 +11,19 @@ from scipy.sparse import hstack, csr_matrix
 from src.ingestion.web_scraping import url_to_data
 
 # Loads the vectorizer
-with open('data/embedded/sample_1/tf_idf_vectorizer.pkl', 'rb') as file:
+with open('data/embedded/tf_idf_preprocess_6000/tf_idf_vectorizer.pkl', 'rb') as file:
     vectorizer = pickle.load(file)
 
 # Loads the scaler
-with open('data/embedded/sample_1/scaler.pkl', 'rb') as file:
+with open('data/embedded/tf_idf_preprocess_6000/scaler.pkl', 'rb') as file:
     scaler = pickle.load(file)
 
 # Loads SVM selector
-with open(f'data/models/sample_1/selector_svm.pkl', 'rb') as file:
+with open(f'data/models/voting_models/selector_voting_3000.pkl', 'rb') as file:
     svm_selector = pickle.load(file)
 
 # Load voting model
-with open('data/models/sample_1/voting_model_5.pkl', 'rb') as file:
+with open('data/models/voting_models/voting_model_3000_5.pkl', 'rb') as file:
     voting_model = pickle.load(file)
 
 

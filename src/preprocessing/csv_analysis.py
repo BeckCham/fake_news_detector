@@ -33,26 +33,33 @@ def size_of_dataframe(csv_file):
     print(f"Length of dataframe {len(dataframe)}")
 
 
-def class_balance(csv_file):
+def class_balance(csv_file,preprocessed):
     """
 
     :param csv_file: The csv file to extract class balance from
     """
+    if preprocessed:
+        column_name = 'classification'
+    else:
+        column_name = 'type'
+
     dataframe = pd.read_csv(csv_file, low_memory=False)
     classifier_labels = ['fake', 'satire', 'bias', 'conspiracy', 'junksci', 'hate', 'clickbait', 'unreliable',
                          'political','rumor','unknown','reliable']
-    number_of_all_classes = dataframe['type'].value_counts()
+    number_of_all_classes = dataframe[column_name].value_counts()
     for class_type in classifier_labels:
         number_of_given_class = number_of_all_classes.get(class_type, 0)
         print(f"{class_type}: {number_of_given_class}")
 
-def dataframe_analysis(csv_file):
+def dataframe_types(csv_file):
     """
+    Displays the data types of columns in the given csv file.
 
-    :param csv_file: The csv file to be analysed
+    :param csv_file: The path of the CSV file to be analysed
     """
+    # Load CSV file into pandas DataFrame
     dataframe = pd.read_csv(csv_file, low_memory=False)
-    print(dataframe.iloc[-1])
+    # Prints the data types per column
     print(dataframe.dtypes)
 
 def number_of_missing_data(csv_file):

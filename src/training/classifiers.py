@@ -35,45 +35,54 @@ def train_model(model_to_train, sample_identifier, k):
     labels = np.load(f'data/embedded/{sample_identifier}/labels.npy')
     vectorised_text = np.load(f'data/embedded/{sample_identifier}/tf_idf.npy')
     additional_features = np.load(f'data/embedded/{sample_identifier}/additional_features.npy')
-    sample_identifier = 'voting_models'
+
     if model_to_train == "naive_bayes":
         print("Training Naive Bayes")
+        # alpha=1,  # Smoothing parameter
         model = MultinomialNB(
-            alpha=1,  # Smoothing parameter
         )
 
     elif model_to_train == "decision_tree":
         print("Training Decision Tree")
+        # min_samples_leaf=2,
+        # max_features=0.5, # How many features to consider per split
         model = DecisionTreeClassifier(
-            min_samples_leaf=2,
-            max_features=0.5, # How many features to consider per split
+
         )
 
     elif model_to_train == "random_forest":
         print("Training Random Forest")
+        # n_estimators=150,  # Number of trees
+        # class_weight='balanced',  #
         model = RandomForestClassifier(
-            n_estimators=150,  # Number of trees
-            class_weight='balanced',  #
+
         )
 
     elif model_to_train == "knn":
         print("Training KNN")
-        model = KNeighborsClassifier(
-            n_neighbors=11,  # Number of neighbours to consider
+        """
+        n_neighbors=11,  # Number of neighbours to consider
             weights='distance',  # How neighbours should be weighted
             algorithm='auto',  # Type of algorithm
             metric='euclidean',  # Distance formula
+        """
+        model = KNeighborsClassifier(
+
         )
 
     elif model_to_train == "svm":
         print("Training SVM")
-        base_model = LinearSVC(
-            C=1,  # How simple/complex the model should be
+        """
+        C=1,  # How simple/complex the model should be
             tol=0.01,
             loss='squared_hinge',
             penalty='l1',
+        """
+        base_model = LinearSVC(
+
         )
-        model = CalibratedClassifierCV(base_model, cv=10)
+        model = base_model
+        #model = CalibratedClassifierCV(base_model, cv=10)
 
     elif model_to_train == "voting":
         print("Voting Classifier")
@@ -90,16 +99,16 @@ def train_model(model_to_train, sample_identifier, k):
         # Loads nb
         with open(f'data/models/voting_models/naive_bayes_model_{k}.pkl', 'rb') as file:
             nb_model = pickle.load(file)
-        """
         # Loads decision tree
         with open(f'data/models/voting_models/decision_tree_model_{k}.pkl', 'rb') as file:
             dt_model = pickle.load(file)
+        """
         #sets voting model
         model = VotingClassifier(
             estimators=[
                 ('svm', svm_model),
                 ('rf', random_forest),
-                ('decision_tree', dt_model),
+                #('decision_tree', dt_model),
                 #('knn', knn_model),
                 #('naive_bayes', nb_model),
             ],
@@ -120,6 +129,7 @@ def train_model(model_to_train, sample_identifier, k):
     #Combines vectorized text and additional features
     features = hstack([vectorised_text, csr_matrix(additional_features)]).toarray()
 
+    # Fits the model using given features and labels
     model.fit(features, labels)
 
     # Validates and prints the model
@@ -135,7 +145,6 @@ def train_model(model_to_train, sample_identifier, k):
     model_comparison.print_cm_simple(results[5])
 
     # Save the trained model
-
     with open(f'data/models/{sample_identifier}/{model_to_train}_model.pkl', 'wb') as file:
         pickle.dump(model, file)
 

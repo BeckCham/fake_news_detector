@@ -37,11 +37,11 @@ def remove_non_english_articles(dataframe):
 
 def cleans_meta_keywords_column(cell):
     """
-    Goes through a cell in the meta keywords column and safely converts the metadata keywords into a string and empty
-    keywords are removed.
+    Goes through a cell in the meta keywords column and safely converts the metadata keywords into a string, removing
+    any empty keywords. This function is intended to be applied to the whole meta keywords' column.
 
     :param cell: Meta keywords cell
-    :return: Cleaned meta keywords column
+    :return: Cleaned meta keywords cell
     """
     try:
         parsed_list = ast.literal_eval(cell)
@@ -117,9 +117,10 @@ def add_extra_features(dataframe):
     dataframe['dmarc_check'] = dataframe['domain'].apply(added_features.dmarc_check)
     # Gets textual analysis information and adds features to the dataset
     textual_features = dataframe['content'].apply(added_features.textual_analysis)
-    dataframe['uppercase_word_frequency'] = textual_features.apply(lambda x: x[0])
-    dataframe['language_diversity'] = textual_features.apply(lambda x: x[1])
-    dataframe['spelling_error_frequency'] = textual_features.apply(lambda x: x[2])
+    dataframe['exclamation_marks_per_sentences'] = textual_features.apply(lambda x: x[0])
+    dataframe['question_marks_per_sentences'] = textual_features.apply(lambda x: x[1])
+    dataframe['language_diversity'] = textual_features.apply(lambda x: x[2])
+
 
     return dataframe
 
@@ -131,7 +132,7 @@ def prepare_content_for_word_embedding(dataframe):
     return dataframe
 
 
-def preprocess_csv(csv_file):
+def preprocess_csv(csv_file,new_csv_name):
     """
     Preprocesses the given csv file using cleaning, culling, and embedding methods.
     :param csv_file: The csv file to be preprocessed
@@ -146,10 +147,11 @@ def preprocess_csv(csv_file):
     dataframe = add_extra_features(dataframe)
     # Culls all redundant features from the dataframe
     dataframe = culling_redundant_features(dataframe)
+    # Combines textual features to prepare for vectorisation
     dataframe = combining_textual_features(dataframe)
     # Prepares the dataframe for merging
     dataframe.rename(columns={'type': 'classification'}, inplace=True)
     # Prepares the dataframe for word embedding
     dataframe = prepare_content_for_word_embedding(dataframe)
     # Saves the cleaned dataframe as a csv
-    dataframe.to_csv('data/cleaned/cleaned_sample.csv', index=False)
+    dataframe.to_csv(f'data/cleaned/{new_csv_name}.csv', index=False)

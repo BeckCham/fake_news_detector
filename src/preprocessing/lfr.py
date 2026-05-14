@@ -42,15 +42,15 @@ def prepare_data(csv_file):
     sample_dataframe['classification'] = sample_dataframe['classification'].map(classifier_labels)  # Y for graph
 
     # Vectorizes the combined text with tf-idf and max vocab set to 6000, ngrams set to 2 and minimum occurrence to 2
-    vectorizer = TfidfVectorizer(max_features=6000, stop_words='english', ngram_range=(1, 2), min_df=2)
+    vectorizer = TfidfVectorizer(max_features=5000, stop_words='english', ngram_range=(1, 2), min_df=2)
     vectorized_combined_text = vectorizer.fit_transform(sample_dataframe['combined_text'])
 
     # Extracts additional textural & credibility features from dataframe
     additional_feature_column_names = [
         'dmarc_check',
-        'uppercase_word_frequency',
-        'language_diversity',
-        'spelling_error_frequency',
+        'exclamation_marks_per_sentences',
+        'question_marks_per_sentences',
+        'language_diversity'
     ]
     additional_features = sample_dataframe[additional_feature_column_names].values
 
@@ -74,16 +74,15 @@ def create_tf_idf_dataset(vectorized_combined_text, scaled_additional_features, 
     :param vectorizer: TfidfVectorizer fitted for text embeddings
     :return: None - Saves files to disk
     """
-
     # Saves scaler for use when prediction needs to be done on new data
-    with open('data/embedded/scaler.pkl', 'wb') as f:
+    with open('data/embedded/temp_folder/scaler.pkl', 'wb') as f:
         pickle.dump(scalar, f)
-    # Saves classification labels
-    np.save('data/embedded/labels.npy', labels)
-    # Saves TF-IDF embedded text after converting it to an array
-    np.save('data/embedded/tf_idf.npy', vectorized_combined_text.toarray())
     # Saves scaled additional features
-    np.save('data/embedded/additional_features.npy', scaled_additional_features)
+    np.save('data/embedded/temp_folder/additional_features.npy', scaled_additional_features)
+    # Saves classification labels
+    np.save('data/embedded/temp_folder/labels.npy', labels)
+    # Saves TF-IDF embedded text after converting it to an array
+    np.save('data/embedded/temp_folder/tf_idf.npy', vectorized_combined_text.toarray())
     # Saves the TF-IDF vectorizer for use transforming new text during prediction.
-    with open('data/embedded/tf_idf_vectorizer.pkl', 'wb') as file:
+    with open('data/embedded/temp_folder/tf_idf_vectorizer.pkl', 'wb') as file:
         pickle.dump(vectorizer, file)

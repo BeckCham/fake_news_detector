@@ -190,12 +190,12 @@ def textual_analysis(body_of_text):
     number_of_words = len(words)
     # Calculates average sentence length and exclamation/question marks per sentences
     if number_of_sentences > 0:
-        average_sentence_length = round(number_of_words / number_of_sentences,3)
-        #exclamation_marks_per_sentences = round(body_of_text.count("!") / number_of_sentences,3)
-        #question_marks_per_sentences = round(body_of_text.count("?") / number_of_sentences,3)
+        #average_sentence_length = round(number_of_words / number_of_sentences,3)
+        exclamation_marks_per_sentences = round(body_of_text.count("!") / number_of_sentences,3)
+        question_marks_per_sentences = round(body_of_text.count("?") / number_of_sentences,3)
     else:
-        #exclamation_marks_per_sentences = 0
-        #question_marks_per_sentences = 0
+        exclamation_marks_per_sentences = 0
+        question_marks_per_sentences = 0
         average_sentence_length = 0
 
     #Gets how many spelling mistakes there are per word
@@ -204,13 +204,13 @@ def textual_analysis(body_of_text):
     if number_of_words > 0:
         # Gets number of full upper case words excluding one-letter words eg "I"
         number_of_uppercase_words = sum(1 for word in words if word.isupper() and len(word) > 1)
-        uppercase_words_frequency = round(number_of_uppercase_words / number_of_words,3)
+        #uppercase_words_frequency = round(number_of_uppercase_words / number_of_words,3)
         # Calculates how many words are unique out of all the words
         diversity_in_language = round(len(set(words)) / number_of_words, 3)
     else:
+        diversity_in_language = 0
         uppercase_words_frequency = 0
 
-
-    return uppercase_words_frequency, diversity_in_language, mistakes_per_word
+    return exclamation_marks_per_sentences,question_marks_per_sentences, diversity_in_language
 
 

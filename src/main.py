@@ -24,12 +24,12 @@ from src.training.classifiers import grid_search
 """
 Preprocesses the csv file given
 """
-#csv_preparation.preprocess_csv('data/samples/news_sample_10000_1.csv')
+csv_preparation.preprocess_csv('data/samples/news_sample_10000.csv','cleaned_tf_idf_preprocess_someadded')
 """
 Gets Sample from news dataset
 """
 
-#sampling.reservoir_sample_from_csv(10000)
+#sampling.stratified_sample_from_csv(10000)
 
 """
 Analyses the csv file given
@@ -40,7 +40,9 @@ Analyses the csv file given
 #csv_analysis.dataframe_analysis('data/samples/news_sample_10000_1.csv')
 #csv_analysis.number_of_missing_data('data/samples/news_sample_10000_1.csv')
 #csv_analysis.number_of_non_english_articles('data/samples/news_sample_10000_2.csv')
-#csv_analysis.class_balance("data/samples/news_sample_50000.csv")
+#csv_analysis.class_balance("data/samples/news_sample_10000.csv",False)
+#csv_analysis.class_balance("data/samples/news_sample_10000_1.csv",False)
+#csv_analysis.class_balance("data/cleaned/old/cleaned_tf_idf_preprocess.csv",True)
 """
 Gets data from URL
 """
@@ -61,29 +63,31 @@ from src.training.model_comparison import print_results, print_trained_model_res
 """
 Applies tf-idf to cleaned news sample
 """
-#create_tf_idf_dataset(*prepare_data('data/cleaned/cleaned_tf_idf_preprocess.csv'))
+create_tf_idf_dataset(*prepare_data('data/cleaned/cleaned_tf_idf_preprocess_someadded.csv'))
+#create_tf_idf_dataset(*prepare_data('data/cleaned/cleaned_tf_idf_preprocess_noadded.csv'))
+#create_tf_idf_dataset(*prepare_data('data/cleaned/cleaned_tf_idf_nopreprocess_noadded.csv'))
 """
 Runs NB
 """
 
-#classifiers.train_model("naive_bayes", 'tf_idf_preprocess_6000',0)
+#classifiers.train_model("naive_bayes", 'preprocess_5000',0)
 #classifiers.run_naive_bayes()
 """
 Runs Decision Tree
 """
-#classifiers.train_model("decision_tree", 'tf_idf_preprocess_6000',6000)
+#classifiers.train_model("decision_tree", 'preprocess_5000',0)
 """
 Runs Random Forest
 """
-#classifiers.train_model("random_forest", 'tf_idf_preprocess_6000',0)
+#classifiers.train_model("random_forest", 'preprocess_5000',0)
 """
 Runs KNN
 """
-#classifiers.train_model("knn", 'tf_idf_preprocess_6000',6000)
+#classifiers.train_model("knn", 'preprocess_5000',0)
 """
 Runs SVM
 """
-#classifiers.train_model("svm", 'tf_idf_preprocess_6000',0)
+#classifiers.train_model("svm", 'preprocess_5000',0)
 """
 Predict from url with nb
 """
@@ -97,9 +101,9 @@ Extra features
 Performs feature selection
 """
 # Additional features
-#test_features_individually(*prepare_data('data/cleaned/cleaned_tf_idf_preprocess.csv')[:3])
-#find_best_combination_of_features(*prepare_data('data/cleaned/cleaned_sample.csv')[:3])
-#check_best_combination(*prepare_data('data/cleaned/cleaned_sample.csv')[:3])
+#test_features_individually(*prepare_data('data/cleaned/cleaned_tf_idf_preprocess_alladded.csv')[:3])
+#find_best_combination_of_features(*prepare_data('data/cleaned/cleaned_tf_idf_preprocess_alladded.csv')[:3])
+#check_best_combination(*prepare_data('data/cleaned/cleaned_tf_idf_preprocess_alladded.csv')[:3])
 # TF-IDF
 #prepared_data = prepare_data('data/cleaned/cleaned_tf_idf_preprocess.csv')
 #tf_idf_feature_selection_with_varying_features(prepared_data[0], prepared_data[2],"knn")
@@ -116,11 +120,11 @@ Find best hyperparameters
 """
 Train voting model
 """
-classifiers.train_model("voting", 'tf_idf_preprocess_6000', 3000)
+#classifiers.train_model("voting", 'tf_idf_preprocess_6000', 3000)
 """
 Check results of trained model
 """
-#print_trained_model_results('data/models/tf_idf_no_preprocess_5000/naive_bayes_model.pkl','tf_idf_no_preprocess',3000)
+#print_trained_model_results('data/models/voting_models/voting_model_6000_5.pkl','tf_idf_preprocess_6000',6000)
 
 """
 Check results between two models
